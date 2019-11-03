@@ -28,7 +28,7 @@
             android:inputType="phone"
             android:hint="Email"
             android:focusableInTouchMode="true"
-            android:textColorHint="#C2C0C0">
+            android:textColorHint="@color/colorTextGrey">
         </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -37,7 +37,7 @@
             android:inputType="textPassword"
             android:hint="Password"
             android:focusableInTouchMode="true"
-            android:textColorHint="#C2C0C0"
+            android:textColorHint="@color/colorTextGrey"
             android:layout_marginBottom="20dp">
         </androidx.appcompat.widget.AppCompatEditText>
 
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="Don't have an account? Sign up"
-            android:textColor="#E8D9D9EE"
+            android:textColor="@color/colorHeadingGrey"
             android:textSize="15dp">
         </androidx.appcompat.widget.AppCompatTextView>
 

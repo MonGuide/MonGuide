@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Harry Potter"
-                android:textColor="#E8D9D9EE"
+                android:textColor="@color/colorHeadingGrey"
                 android:textSize="20dp"
 
                 android:textStyle="bold"></androidx.appcompat.widget.AppCompatTextView>
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Yesterday at 8:35 AM"
-                android:textColor="#E8D9D9EE"
+                android:textColor="@color/colorHeadingGrey"
                 android:textSize="12dp"></androidx.appcompat.widget.AppCompatTextView>
         </LinearLayout>
 
@@ -60,12 +60,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="sans-serif-medium"
-        android:textColor="#E8D9D9EE"
+        android:textColor="@color/colorHeadingGrey"
         android:text="This is my life story"
         android:textSize="15dp"
         android:textStyle="bold"></androidx.appcompat.widget.AppCompatTextView>
 
     <!-- content -->
+
+    <!-- for count of upvotes, downvotes, answers and following -->
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,10 +75,9 @@
         android:background="#00A72C2C"
         android:fontFamily="sans-serif"
         android:text="Harry James Potter is the titular protagonist of J. K. Rowling's Harry Potter series. The majority of the books' plot covers seven years in the life of the orphan Harry, who, on his eleventh birthday, learns he is a wizard."
-        android:textColor="#B4FFFFFF"
+        android:textColor="@color/colorParaGrey"
         android:textSize="15dp"></androidx.appcompat.widget.AppCompatTextView>
 
-    <!-- for count of upvotes, downvotes, answers and following -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -98,7 +99,7 @@
                     android:layout_gravity="center"
                     android:text="255"
                     android:textStyle="bold"
-                    android:textColor="#E7E1E1"
+                    android:textColor="@color/colorStatsGrey"
                     android:textSize="12dp"></androidx.appcompat.widget.AppCompatTextView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -107,7 +108,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:text="Upvotes"
-                    android:textColor="#E7E1E1"
+                    android:textColor="@color/colorStatsGrey"
                     android:textSize="12dp"></androidx.appcompat.widget.AppCompatTextView>
             </LinearLayout>
 
@@ -123,7 +124,7 @@
                     android:layout_gravity="center"
                     android:text="7"
                     android:textStyle="bold"
-                    android:textColor="#E7E1E1"
+                    android:textColor="@color/colorStatsGrey"
                     android:textSize="12dp"></androidx.appcompat.widget.AppCompatTextView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -132,7 +133,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:text="Downvotes"
-                    android:textColor="#E7E1E1"
+                    android:textColor="@color/colorStatsGrey"
                     android:textSize="12dp"></androidx.appcompat.widget.AppCompatTextView>
             </LinearLayout>
         </LinearLayout>
@@ -154,7 +155,7 @@
                     android:layout_gravity="center"
                     android:text="13"
                     android:textStyle="bold"
-                    android:textColor="#E7E1E1"
+                    android:textColor="@color/colorStatsGrey"
                     android:textSize="12dp"></androidx.appcompat.widget.AppCompatTextView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -163,7 +164,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:text="Answers"
-                    android:textColor="#E7E1E1"
+                    android:textColor="@color/colorStatsGrey"
                     android:textSize="12dp"></androidx.appcompat.widget.AppCompatTextView>
             </LinearLayout>
 
@@ -179,7 +180,7 @@
                     android:layout_gravity="center"
                     android:text="44"
                     android:textStyle="bold"
-                    android:textColor="#E7E1E1"
+                    android:textColor="@color/colorStatsGrey"
                     android:textSize="12dp"></androidx.appcompat.widget.AppCompatTextView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -188,7 +189,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:text="Following"
-                    android:textColor="#E7E1E1"
+                    android:textColor="@color/colorStatsGrey"
                     android:textSize="12dp"></androidx.appcompat.widget.AppCompatTextView>
             </LinearLayout>
         </LinearLayout>
