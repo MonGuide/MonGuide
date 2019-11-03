@@ -1,8 +1,12 @@
 package com.monguide.monguide.loginandsignup;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +50,16 @@ public class LoginActivity extends AppCompatActivity {
                 startAuthentication();
             }
         });
+
+        // This is temporary
+        final ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            Toast.makeText(LoginActivity.this, "Connected", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(LoginActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -58,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startAuthentication() {
+        Log.e("MONGUIDE", "logging in...");
+
         String email = mEmailEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -66,13 +82,15 @@ public class LoginActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     startHomeActivity();
                 } else {
-                    Toast.makeText(LoginActivity.this, R.string.illegal_login, Toast.LENGTH_SHORT);
+                    Toast.makeText(LoginActivity.this, R.string.illegal_login, Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     private void startHomeActivity() {
+        Log.e("MONGUIDE", "Successfully logged in...");
+
         startActivity(new Intent(this, HomeActivity.class));
         finish();
     }
