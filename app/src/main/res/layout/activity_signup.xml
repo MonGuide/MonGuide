@@ -16,7 +16,7 @@
             android:textAlignment="center"
             android:text="Create a new account"
             android:padding="10dp"
-            android:textColor="#E8D9D9EE"
+            android:textColor="@color/colorHeadingGrey"
             android:textSize="18dp"
             android:textStyle="bold">
         </androidx.appcompat.widget.AppCompatTextView>
@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:hint="Full name"
+            android:textColor="@color/colorHeadingGrey"
             android:textColorHint="#C2C0C0"
             android:id="@+id/activity_signup_nameEditText">
         </androidx.appcompat.widget.AppCompatEditText>
@@ -34,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:textColor="@color/colorHeadingGrey"
             android:hint="Email"
             android:textColorHint="#C2C0C0"
             android:id="@+id/activity_signup_emailEditText">
@@ -44,6 +46,7 @@
             android:layout_height="wrap_content"
             android:inputType="textVisiblePassword"
             android:hint="Password"
+            android:textColor="@color/colorHeadingGrey"
             android:textColorHint="#C2C0C0"
             android:id="@+id/activity_signup_passwordEditText">
         </androidx.appcompat.widget.AppCompatEditText>

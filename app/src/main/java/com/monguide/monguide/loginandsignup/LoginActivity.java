@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         final ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
         if (activeNetwork != null && activeNetwork.isConnected()) {
-            Toast.makeText(LoginActivity.this, "Connected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Connected", Toast.LENGTH_SHORT);
         } else {
             Toast.makeText(LoginActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
         }
