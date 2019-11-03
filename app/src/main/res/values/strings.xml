@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MonGuide</string>
+    <string name="illegal_login">Invalid Credentials!</string>
 </resources>
