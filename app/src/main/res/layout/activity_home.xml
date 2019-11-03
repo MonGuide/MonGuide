@@ -24,13 +24,22 @@
         android:background="#363636">
     </FrameLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_24dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/activity_home_bottomnavigation"
+        android:layout_margin="16dp" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/activity_home_bottomnavigation"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="#2C2A2A"
         app:menu="@menu/activity_home_bottomnavigation"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        app:labelVisibilityMode="unlabeled">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>
