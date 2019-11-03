@@ -1,4 +1,4 @@
-package com.changedomainname.changeprojectname.questionandanswer.viewquestion.questionsummary;
+package com.monguide.monguide.questionandanswer.viewquestion.questionsummary;
 
 import androidx.fragment.app.Fragment;
 

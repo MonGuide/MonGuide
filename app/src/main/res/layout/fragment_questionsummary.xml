@@ -18,8 +18,7 @@
             android:layout_height="50dp"
             android:outlineProvider="bounds"
             android:scaleType="centerCrop"
-            android:src="@drawable/temp_harrypotter"
-            android:background=""></ImageView>
+            android:src="@drawable/temp_harrypotter"></ImageView>
 
         <LinearLayout
             android:layout_width="wrap_content"

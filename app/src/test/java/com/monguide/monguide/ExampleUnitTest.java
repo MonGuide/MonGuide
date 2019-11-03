@@ -1,4 +1,4 @@
-package com.changedomainname.changeprojectname;
+package com.monguide.monguide;
 
 import org.junit.Test;
 

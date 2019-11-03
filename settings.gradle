@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='Change Project Name'
+rootProject.name='MonGuide'

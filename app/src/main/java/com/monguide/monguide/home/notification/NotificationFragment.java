@@ -1,4 +1,4 @@
-package com.changedomainname.changeprojectname.home.notification;
+package com.monguide.monguide.home.notification;
 
 import androidx.fragment.app.Fragment;
 
