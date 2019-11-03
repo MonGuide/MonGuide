@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "501443196150",
+    "firebase_url": "https://monguide-9b111.firebaseio.com",
+    "project_id": "monguide-9b111",
+    "storage_bucket": "monguide-9b111.appspot.com",
+
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501443196150:android:515e6e86f0a899311ea8d7",
+        "android_client_info": {
+          "package_name": "com.monguide.monguide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501443196150-f82k03lar9q1gd07j9v795d8gviplcpn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5LTwjD2hPUhPWl1ohzbdzcdMQQaZxMs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501443196150-f82k03lar9q1gd07j9v795d8gviplcpn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
