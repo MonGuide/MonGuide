@@ -22,16 +22,18 @@
         </androidx.appcompat.widget.AppCompatImageView>
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/activity_login_emailedittext"
             android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"
+            android:inputType="textEmailAddress"
             android:hint="Email"
             android:focusableInTouchMode="true"
             android:textColorHint="@color/colorTextGrey">
         </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/activity_login_passwordedittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -43,6 +45,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/activity_login_loginbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Log In"

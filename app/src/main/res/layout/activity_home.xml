@@ -27,9 +27,8 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/activity_home_bottomnavigation"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
         android:background="#2C2A2A"
-        android:elevation="1dp"
         app:menu="@menu/activity_home_bottomnavigation"
         android:layout_alignParentBottom="true">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
