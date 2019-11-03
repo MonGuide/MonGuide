@@ -20,17 +20,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/activity_home_toolbar"
-        android:layout_above="@+id/activity_home_bottomNavigation"
+        android:layout_above="@+id/activity_home_bottomnavigation"
         android:background="#363636">
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/activity_home_bottomNavigation"
+        android:id="@+id/activity_home_bottomnavigation"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
         android:background="#2C2A2A"
-        android:elevation="1dp"
-        app:menu="@menu/activity_home_bottomNavigation"
+        app:menu="@menu/activity_home_bottomnavigation"
         android:layout_alignParentBottom="true">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

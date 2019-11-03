@@ -22,7 +22,7 @@
         </androidx.appcompat.widget.AppCompatImageView>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/activity_login_emailEditText"
+            android:id="@+id/activity_login_emailedittext"
             android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/activity_login_passwordEditText"
+            android:id="@+id/activity_login_passwordedittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -45,7 +45,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/activity_login_loginButton"
+            android:id="@+id/activity_login_loginbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Log In"
