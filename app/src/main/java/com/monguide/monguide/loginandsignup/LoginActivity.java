@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText mEmailEditText;
     private EditText mPasswordEditText;
+    private TextView mSignupTextView;
 
     private Button mLogInButton;
 
@@ -44,11 +47,19 @@ public class LoginActivity extends AppCompatActivity {
         mEmailEditText = (AppCompatEditText) findViewById(R.id.activity_login_emailedittext);
         mPasswordEditText = (AppCompatEditText) findViewById(R.id.activity_login_passwordedittext);
         mLogInButton = (AppCompatButton) findViewById(R.id.activity_login_loginbutton);
+        mSignupTextView = (AppCompatTextView) findViewById(R.id.activity_login_signuptextview);
 
         mLogInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startAuthentication();
+            }
+        });
+
+        mSignupTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSignUpActivity();
             }
         });
 
@@ -87,6 +98,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void startSignUpActivity() {
+        startActivity(new Intent(this,SignUpActivity.class));
+        finish();
     }
 
     private void startHomeActivity() {
