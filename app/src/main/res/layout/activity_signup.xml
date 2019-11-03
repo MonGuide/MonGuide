@@ -26,15 +26,17 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:hint="Full name"
-            android:textColorHint="#C2C0C0">
+            android:textColorHint="#C2C0C0"
+            android:id="@+id/activity_signup_nameEditText">
         </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:hint="Phone number"
-            android:textColorHint="#C2C0C0">
+            android:inputType="text"
+            android:hint="Email"
+            android:textColorHint="#C2C0C0"
+            android:id="@+id/activity_signup_emailEditText">
         </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -42,13 +44,15 @@
             android:layout_height="wrap_content"
             android:inputType="textVisiblePassword"
             android:hint="Password"
-            android:textColorHint="#C2C0C0">
+            android:textColorHint="#C2C0C0"
+            android:id="@+id/activity_signup_passwordEditText">
         </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign Up">
+            android:text="Sign Up"
+            android:id="@+id/activity_signup_signupButton">
         </androidx.appcompat.widget.AppCompatButton>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -57,7 +61,8 @@
             android:textAlignment="center"
             android:text="Already have an account? Log in"
             android:textColor="#E8D9D9EE"
-            android:textSize="15dp">
+            android:textSize="15dp"
+            android:id="@+id/activity_signup_loginTextView">
         </androidx.appcompat.widget.AppCompatTextView>
 
     </LinearLayout>

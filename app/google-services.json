@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "501443196150-lrt18u574jk46fqvpggr3ago1n4h1mgf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.monguide.monguide",
+            "certificate_hash": "abebd995870d296a251c5facff6f6c5b5559476c"
+          }
+        },
+        {
           "client_id": "501443196150-f82k03lar9q1gd07j9v795d8gviplcpn.apps.googleusercontent.com",
           "client_type": 3
         }
