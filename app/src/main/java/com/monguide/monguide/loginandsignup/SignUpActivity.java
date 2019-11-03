@@ -1,5 +1,6 @@
 package com.monguide.monguide.loginandsignup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.monguide.monguide.R;
+import com.monguide.monguide.home.HomeActivity;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -45,7 +47,6 @@ public class SignUpActivity extends AppCompatActivity {
         mLoginTextView = (TextView) findViewById(R.id.activity_signup_loginTextView);
 
 
-
         mSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,9 +57,9 @@ public class SignUpActivity extends AppCompatActivity {
                 mFirebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             mUserUID = mFirebaseAuth.getCurrentUser().getUid().toString();
-                            mRefCurrentUser = new Firebase("https://monguide-9b111.firebaseio.com/users/"+mUserUID);
+                            mRefCurrentUser = new Firebase("https://monguide-9b111.firebaseio.com/users/" + mUserUID);
 
                             Firebase refCurrentChildName = mRefCurrentUser.child("Name");
                             refCurrentChildName.setValue(mUsernameEditText.getText().toString());
@@ -69,8 +70,8 @@ public class SignUpActivity extends AppCompatActivity {
                             Firebase refCurrentChildPassword = mRefCurrentUser.child("Password");
                             refCurrentChildPassword.setValue(mPasswordEditText.getText().toString());
 
-                        }
-                        else{
+                            startHomeActivity();
+                        } else {
                             Toast.makeText(SignUpActivity.this, "Registration Unsuccessful", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -79,5 +80,23 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+
+        mLoginTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startLoginActivity();
+            }
+        });
+    }
+
+
+    private void startLoginActivity() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
+    private void startHomeActivity() {
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 }

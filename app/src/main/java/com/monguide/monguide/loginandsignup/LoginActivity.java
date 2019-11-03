@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button mLogInButton;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
