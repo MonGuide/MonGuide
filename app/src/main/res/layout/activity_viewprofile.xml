@@ -36,7 +36,7 @@
     </LinearLayout>
 
     <!-- rest of details -->
-    <!-- ############ correct for content overflow -->
+    <!-- ############ do correction for content overflow -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

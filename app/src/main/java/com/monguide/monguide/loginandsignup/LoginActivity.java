@@ -42,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        testConnection();
+
         mAuth = FirebaseAuth.getInstance();
 
         mEmailEditText = (AppCompatEditText) findViewById(R.id.activity_login_emailedittext);
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         mLogInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("MONGUIDE", "Starting authentication...");
                 startAuthentication();
             }
         });
@@ -62,16 +65,16 @@ public class LoginActivity extends AppCompatActivity {
                 startSignUpActivity();
             }
         });
+    }
 
-        // This is temporary
+    private void testConnection() {
         final ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
         if (activeNetwork != null && activeNetwork.isConnected()) {
-            Toast.makeText(LoginActivity.this, "Connected", Toast.LENGTH_SHORT);
+            Toast.makeText(LoginActivity.this, "Connected", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(LoginActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
