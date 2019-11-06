@@ -26,6 +26,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.monguide.monguide.R;
 import com.monguide.monguide.home.HomeActivity;
+import com.monguide.monguide.profile.ViewProfile;
+import com.monguide.monguide.utils.Constants;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -82,7 +84,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // if user is already logged in, go to home page
         if(mAuth.getCurrentUser() != null) {
-            startHomeActivity();
+            // ****************
+            //startHomeActivity();
         }
     }
 
@@ -95,7 +98,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    startHomeActivity();
+                    Intent i = new Intent(LoginActivity.this, ViewProfile.class);
+                    i.putExtra(Constants.UID, mAuth.getCurrentUser().getUid());
+                    startActivity(i);
+                    //startHomeActivity();
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.illegal_login, Toast.LENGTH_SHORT).show();
                 }

@@ -7,39 +7,43 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/activity_home_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_alignParentTop="true"
         android:background="#2C2A2A"
-        android:elevation="1dp"
+        android:elevation="16dp"
         app:menu="@menu/activity_home_toolbar"
-        app:title="APP NAME"
+        app:title="MonGuide"
         app:titleTextColor="#D1CDCD">
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
+        android:id="@+id/activity_home_fragmentcontainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/activity_home_toolbar"
-        android:layout_above="@+id/activity_home_bottomnavigation"
+        android:layout_above="@+id/activity_home_bottomnavigationview"
         android:background="#363636">
     </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/activity_home_bottomnavigationview"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#2C2A2A"
+        app:menu="@menu/activity_home_bottomnavigationview"
+        android:layout_alignParentBottom="true"
+        app:labelVisibilityMode="unlabeled"
+        android:elevation="16dp">
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_24dp"
-        android:layout_alignParentRight="true"
-        android:layout_above="@id/activity_home_bottomnavigation"
-        android:layout_margin="16dp" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/activity_home_bottomnavigation"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#2C2A2A"
-        app:menu="@menu/activity_home_bottomnavigation"
         android:layout_alignParentBottom="true"
-        app:labelVisibilityMode="unlabeled">
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        android:layout_centerInParent="true"
+        android:layout_margin="28dp"
+        app:elevation="32dp"
+        android:clickable="true"/>
 
 </RelativeLayout>
