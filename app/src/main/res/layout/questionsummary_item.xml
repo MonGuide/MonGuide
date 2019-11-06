@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
     android:background="#383636"
     android:orientation="vertical"
     android:padding="10dp">
@@ -56,6 +57,7 @@
 
     <!-- title -->
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/questionsummary_item_titletextview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -64,11 +66,9 @@
         android:text="This is my life story"
         android:textSize="15dp"
         android:textStyle="bold"></androidx.appcompat.widget.AppCompatTextView>
-
-    <!-- content -->
-
-    <!-- for count of upvotes, downvotes, answers and following -->
+    <!-- body -->
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/questionsummary_item_bodytextview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -78,6 +78,7 @@
         android:textColor="@color/colorParaGrey"
         android:textSize="15dp"></androidx.appcompat.widget.AppCompatTextView>
 
+    <!-- for count of upvotes, downvotes, answers and following -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -9,9 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,8 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.monguide.monguide.R;
 import com.monguide.monguide.home.HomeActivity;
+import com.monguide.monguide.models.user.*;
+import com.monguide.monguide.utils.DatabaseHelper;
 
-import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -39,7 +44,6 @@ public class SignUpActivity extends AppCompatActivity {
     private TextView mLoginTextView;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabaseReference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +51,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         mSignupButton = (Button) findViewById (R.id.activity_signup_signupButton);
         mUsernameEditText = (EditText) findViewById (R.id.activity_signup_nameEditText);
@@ -90,16 +93,23 @@ public class SignUpActivity extends AppCompatActivity {
     private void sendToDatabase(){
         String email = mEmailEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
-        DatabaseReference temp = mDatabaseReference.child("users/XNdIoSHChJWhliVOTlEgQ8VfGol1");
-        temp.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                Log.e("XXX", map.toString());
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
 
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    String mUID = mAuth.getCurrentUser().getUid();
+
+                    if(TextUtils.isEmpty(mCompanyNameEditText.getText()) && TextUtils.isEmpty(mJobProfileEditText.getText()))
+                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), Integer.parseInt(mGraduationYearEditText.getText().toString())), new UserDetails.WorkDetails()));
+                    else
+                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), Integer.parseInt(mGraduationYearEditText.getText().toString())), new UserDetails.WorkDetails(mCompanyNameEditText.getText().toString(), mJobProfileEditText.getText().toString())));
+
+                    startHomeActivity();
+                } else {
+                    Toast.makeText(SignUpActivity.this, "Enter Valid Email-id or Password", Toast.LENGTH_LONG).show();
+                }
+            }
         });
     }
 
