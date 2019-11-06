@@ -10,21 +10,30 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/activity_signup_signupButton"
-        android:layout_below="@id/activity_signuo_createAccountTextView">
+        android:layout_above="@id/activity_signup_signupButton">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Create a new account"
+                android:padding="10dp"
+                android:textColor="@color/colorHeadingGrey"
+                android:textSize="20dp"
+                android:textStyle="bold">
+            </androidx.appcompat.widget.AppCompatTextView>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/activity_signup_imageView"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@tools:sample/avatars"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/temp_harrypotter"
                 android:layout_marginBottom="10dp"/>
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -151,18 +160,7 @@
 
     </ScrollView>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/activity_signuo_createAccountTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Create a new account"
-        android:padding="10dp"
-        android:textColor="@color/colorHeadingGrey"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:background="#272525">
-    </androidx.appcompat.widget.AppCompatTextView>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
