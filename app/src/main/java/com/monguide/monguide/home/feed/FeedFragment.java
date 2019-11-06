@@ -13,7 +13,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.monguide.monguide.R;
 
 public class FeedFragment extends Fragment {
-    DatabaseReference mRootRef = Dar
 
     @Nullable
     @Override

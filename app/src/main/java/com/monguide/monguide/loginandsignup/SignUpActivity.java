@@ -137,9 +137,7 @@ public class SignUpActivity extends AppCompatActivity {
         if(TextUtils.isEmpty(mCompanyNameEditText.getText()) && !TextUtils.isEmpty(mJobProfileEditText.getText())){
             mCompanyNameEditText.setError("Company name required");
             return false;
-        }
-
-        else{
+        } else{
             mJobProfileEditText.setError("Job profile required");
             return false;
         }

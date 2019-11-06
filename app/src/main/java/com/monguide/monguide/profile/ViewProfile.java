@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.monguide.monguide.R;
 import com.monguide.monguide.models.user.UserDetails;
 import com.monguide.monguide.utils.Constants;
+import com.monguide.monguide.utils.DatabaseHelper;
 
 public class ViewProfile extends AppCompatActivity {
     private static final String TAG = "ViewProfile";
@@ -35,11 +36,6 @@ public class ViewProfile extends AppCompatActivity {
     private TextView mCourseNameTextView;
     private TextView mCollegeNameTextView;
     private TextView mGraduationYearTextView;
-
-    private DatabaseReference mRootRef;
-    private DatabaseReference mCurrUserProfileRef;
-    private DatabaseReference mCurrUserQuestionsAskedRef;
-    private DatabaseReference mCurrUserQuestionsFollowedRef;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,17 +59,12 @@ public class ViewProfile extends AppCompatActivity {
         mCollegeNameTextView = (TextView) findViewById(R.id.activity_viewprofile_textview_collegename);
         mGraduationYearTextView = (TextView) findViewById(R.id.activity_viewprofile_textview_graduationyear);
 
-        mRootRef = FirebaseDatabase.getInstance().getReference();
-        mCurrUserProfileRef = mRootRef.child("users/" + mCurrUID);
-        mCurrUserQuestionsAskedRef = mRootRef.child("questionsAsked/" + mCurrUID);
-        mCurrUserQuestionsFollowedRef = mRootRef.child("questionsFollowed/" + mCurrUID);
-
         populateUserDetails();
         populateQuestionsAsked();
     }
 
     private void populateUserDetails() {
-        mCurrUserProfileRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseHelper.getReferenceToParticularUser(mCurrUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.e(TAG, "Updating user details..........");
@@ -92,26 +83,7 @@ public class ViewProfile extends AppCompatActivity {
     }
 
     private void populateQuestionsAsked() {
-        mCurrUserQuestionsAskedRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String currQuestionID = ds.getKey();
-                    mRootRef.child("questions/" + currQuestionID).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
     }
 
 }
