@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_feed_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_green_light">
-    </TextView>
+        android:background="@color/colorLightGrey">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>
