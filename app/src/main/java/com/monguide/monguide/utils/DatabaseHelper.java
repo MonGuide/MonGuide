@@ -2,8 +2,6 @@ package com.monguide.monguide.utils;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +29,5 @@ public class DatabaseHelper {
     public static DatabaseReference getReferenceToParticularQuestion(String qid) {
         return getReferenceToAllQuestions().child(qid);
     }
-
-    public static StorageReference getReferenceToStorage(){
-        return FirebaseStorage.getInstance().getReference();
-    }
-
-
 
 }

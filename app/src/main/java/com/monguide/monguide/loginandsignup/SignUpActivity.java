@@ -1,6 +1,8 @@
 package com.monguide.monguide.loginandsignup;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,24 +16,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.UploadTask;
 import com.monguide.monguide.R;
 import com.monguide.monguide.home.HomeActivity;
 import com.monguide.monguide.models.user.*;
 import com.monguide.monguide.utils.DatabaseHelper;
-
+import com.monguide.monguide.utils.StorageHelper;
+import java.io.File;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private static int RESULT_LOAD_IMAGE = 1;
-    private ImageView mimageView;
+    private ImageView mImageView;
     private EditText mUsernameEditText;
     private EditText mEmailEditText;
     private EditText mPasswordEditText;
@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mJobProfileEditText;
     private Button mSignupButton;
     private TextView mLoginTextView;
-
+    private Uri mImageAddress;
     private FirebaseAuth mAuth;
 
     @Override
@@ -57,13 +57,14 @@ public class SignUpActivity extends AppCompatActivity {
         mEmailEditText = (EditText) findViewById (R.id.activity_signup_emailEditText);
         mPasswordEditText = (EditText) findViewById (R.id.activity_signup_passwordEditText);
         mLoginTextView = (TextView) findViewById (R.id.activity_signup_loginTextView);
-        mimageView = (ImageView) findViewById (R.id.activity_signup_imageView);
+        mImageView = (ImageView) findViewById (R.id.activity_signup_imageView);
         mCollegeNameEditText = (EditText) findViewById (R.id.activity_signup_collegeNameEditText);
         mCourseNameEditText = (EditText) findViewById (R.id.activity_signup_courseName_EditText);
-        mGraduationYearEditText = (EditText) findViewById (R.id.activity_signup_graduationYearEditText);
+        //mGraduationYearEditText = (EditText) findViewById (R.id.activity_signup_graduationYearEditText);
         mCompanyNameEditText = (EditText) findViewById (R.id.activity_signup_companyNameEditText);
         mJobProfileEditText = (EditText) findViewById (R.id.activity_signup_jobProfile_EditText);
 
+        mImageAddress = Uri.fromFile(new File("C:\\Users\\piyus\\AndroidStudioProjects\\MonGuide\\app\\src\\main\\res\\drawable\\temp_harrypotter.jpg"));
 
         mSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +81,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        mimageView.setOnClickListener(new View.OnClickListener() {
+        mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -88,7 +89,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void sendToDatabase(){
         String email = mEmailEditText.getText().toString();
@@ -105,6 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
                     else
                         DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), Integer.parseInt(mGraduationYearEditText.getText().toString())), new UserDetails.WorkDetails(mCompanyNameEditText.getText().toString(), mJobProfileEditText.getText().toString())));
 
+                    uploadProfilePictureAToDatabase(mUID);
                     startHomeActivity();
                 } else {
                     Toast.makeText(SignUpActivity.this, "Enter Valid Email-id or Password", Toast.LENGTH_LONG).show();
@@ -114,14 +115,24 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
-            Uri imageAddress = data.getData();
-            mimageView.setImageURI(imageAddress);
+            mImageAddress = data.getData();
+            mImageView.setImageURI(mImageAddress);
         }
+    }
+
+
+    private void uploadProfilePictureAToDatabase(String uid) {
+        StorageHelper.getRefrenceToParticularProfilePicture(uid).putFile(mImageAddress).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            }
+        });
     }
 
     private void startLoginActivity() {
