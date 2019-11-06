@@ -6,21 +6,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.firebase.client.Firebase;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.monguide.monguide.R;
 import com.monguide.monguide.home.HomeActivity;
-import com.monguide.monguide.utils.EducationDetails;
-import com.monguide.monguide.utils.MyUser;
+
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -52,21 +50,38 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = mEmailEditText.getText().toString();
                 String password = mPasswordEditText.getText().toString();
+                DatabaseReference temp = mDatabaseReference.child("users/XNdIoSHChJWhliVOTlEgQ8VfGol1");
+                temp.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                        Log.e("XXX", map.toString());
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
 
+                });
+
+                /*
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             String mUID = mAuth.getCurrentUser().getUid();
                             DatabaseReference currUserDatabaseReference = mDatabaseReference.child("users/" + mUID);
-                            currUserDatabaseReference.setValue(new MyUser(mUsernameEditText.getText().toString(), new EducationDetails("abc", "def", 123)));
+                            String name = mUsernameEditText.getText().toString();
+                            UserDetails.EducationDetails educationDetails = new UserDetails.EducationDetails("a", "b", 1);
+                            UserDetails.WorkDetails workDetails = new UserDetails.WorkDetails("aa", "bb");
+                            UserDetails user = new UserDetails(name, educationDetails, workDetails);
+                            currUserDatabaseReference.setValue(user);
+                            Toast.makeText(SignUpActivity.this, "Success!", Toast.LENGTH_LONG).show();
                             startHomeActivity();
                         } else {
                             Toast.makeText(SignUpActivity.this, "Registration Unsuccessful", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-
+                */
             }
         });
 

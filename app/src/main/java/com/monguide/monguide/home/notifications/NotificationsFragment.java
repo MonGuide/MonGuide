@@ -1,4 +1,4 @@
-package com.monguide.monguide.home.feed;
+package com.monguide.monguide.home.notifications;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import com.monguide.monguide.R;
 
-public class FeedFragment extends Fragment {
+public class NotificationsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_feed, container, false);
+        return inflater.inflate(R.layout.fragment_notifications, container, false);
     }
 }

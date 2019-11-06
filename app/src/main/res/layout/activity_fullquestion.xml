@@ -12,14 +12,14 @@
         android:layout_above="@id/activity_fullquestion_text_comment">
         android:color
         <include
-            layout="@layout/fragment_questionsummary">
+            layout="@layout/questionsummary_item">
         </include>
         <include
-            layout="@layout/fragment_answer">
+            layout="@layout/answer_item">
         </include>
 
         <include
-            layout="@layout/fragment_answer">
+            layout="@layout/answer_item">
         </include>
 
     </LinearLayout>
