@@ -51,10 +51,9 @@ public class HomeActivity extends AppCompatActivity {
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.activity_home_bottomnavigationview);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        // Load feed as default fragment
+        // Load feed fragment as default fragment
         mBottomNavigationView.setSelectedItemId(R.id.activity_home_bottomnavigationview_menuitem_home);
         loadFragment(mFeedFragment);
-
     }
 
     private void loadFragment(Fragment fragment) {
