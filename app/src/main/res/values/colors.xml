@@ -7,9 +7,9 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBackground">#F3F3F3</color>
 
-
-
     <color name="colorLightGrey">#D3D3D3</color>
+
+    // no use
     <color name="colorDarkGrey">#121212</color>
     <color name="colorTextGrey">#C2C0C0</color>
     <color name="colorHeadingGrey">#E8D9D9EE</color>
