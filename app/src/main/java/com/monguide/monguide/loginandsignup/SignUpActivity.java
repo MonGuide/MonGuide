@@ -41,7 +41,6 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mCompanyNameEditText;
     private EditText mJobProfileEditText;
     private Button mSignupButton;
-    private TextView mLoginTextView;
     private Uri mImageAddress;
     private FirebaseAuth mAuth;
 
@@ -60,11 +59,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mSignupButton = (Button) findViewById (R.id.activity_signup_signupButton);
+        mSignupButton = (Button) findViewById (R.id.activity_signup_signupbutton);
         mUsernameEditText = (EditText) findViewById (R.id.activity_signup_nameEditText);
         mEmailEditText = (EditText) findViewById (R.id.activity_signup_emailEditText);
         mPasswordEditText = (EditText) findViewById (R.id.activity_signup_passwordEditText);
-        mLoginTextView = (TextView) findViewById (R.id.activity_signup_loginTextView);
         mProfileImageView = (ImageView) findViewById (R.id.activity_signup_imageView);
         mCollegeNameEditText = (EditText) findViewById (R.id.activity_signup_collegeNameEditText);
         mCourseNameEditText = (EditText) findViewById (R.id.activity_signup_courseName_EditText);
@@ -95,12 +93,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        mLoginTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startLoginActivity();
-            }
-        });
 
         mProfileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
