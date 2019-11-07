@@ -33,7 +33,8 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_questionsummaryitem">
+            android:id="@+id/activity_addquestion_titleedittext"
+            android:background="@drawable/shape_roundrectangle">
         </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -47,6 +48,7 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/activity_addquestion_descriptionedittext"
             android:inputType="text|textMultiLine"
             android:overScrollMode="always"
             android:scrollbarStyle="insideInset"
@@ -54,7 +56,7 @@
             android:lines="6"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:scrollHorizontally="false"
-            android:background="@drawable/background_questionsummaryitem">
+            android:background="@drawable/shape_roundrectangle">
         </androidx.appcompat.widget.AppCompatEditText>
 
     </LinearLayout>
@@ -62,6 +64,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/activity_addquestion_submitbutton"
         android:text="Submit"
         android:textSize="20sp"
         android:layout_alignParentBottom="true"/>
