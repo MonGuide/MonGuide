@@ -13,7 +13,7 @@
     <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="visible">
         <include layout="@layout/questionsummary_item_placeholderforshimmer"/>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <!-- for profile picture, name and time-->
         <LinearLayout
