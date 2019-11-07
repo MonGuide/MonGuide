@@ -7,14 +7,14 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@drawable/background_questionsummaryitem"
-    android:elevation="16dp">
+    android:elevation="8dp">
 
     <!-- Shimmer -->
     <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">
-        <include layout="@layout/questionsummary_item_placeholderforshimmer"/>
+        <include layout="@layout/questionsummary_placeholderforshimmer"/>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
 
@@ -79,8 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textSize="12dp"
-            android:text="Harry James Potter is the titular protagonist of J. K. Rowling's Harry Potter series. The majority of the books' plot covers seven years in the life of the orphan Harry, who, on his eleventh birthday, learns he is a wizard."
-            />
+            android:text="Harry James Potter is the titular protagonist of J. K. Rowling's Harry Potter series. The majority of the books' plot covers seven years in the life of the orphan Harry, who, on his eleventh birthday, learns he is a wizard."/>
 
         <!-- for count of upvotes, downvotes, answers -->
         <RelativeLayout
