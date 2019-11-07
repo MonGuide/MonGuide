@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/activity_home_bottomnavigationview_menuitem_home"
-        android:title="Home" android:icon="@drawable/ic_home_24dp">
+        android:title="Home" android:icon="@drawable/fill_home">
     </item>
     <!-- Empty item to fill space only -->
     <item

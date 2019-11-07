@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
@@ -14,41 +13,50 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.UploadTask;
 import com.monguide.monguide.R;
 import com.monguide.monguide.home.HomeActivity;
 import com.monguide.monguide.models.user.*;
 import com.monguide.monguide.utils.DatabaseHelper;
-
+import com.monguide.monguide.utils.StorageHelper;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private static int RESULT_LOAD_IMAGE = 1;
-    private ImageView mimageView;
+    private int mGraduationYearInt;
+    private ImageView mProfileImageView;
     private EditText mUsernameEditText;
     private EditText mEmailEditText;
     private EditText mPasswordEditText;
     private EditText mCollegeNameEditText;
     private EditText mCourseNameEditText;
-    private EditText mGraduationYearEditText;
+    private Spinner mGraduationYearSpinner;
     private EditText mCompanyNameEditText;
     private EditText mJobProfileEditText;
     private Button mSignupButton;
     private TextView mLoginTextView;
-
+    private Uri mImageAddress;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        ArrayList<String> years = new ArrayList<String>();
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 1950; i <= thisYear+10; i++) {
+            years.add(Integer.toString(i));
+        }
+        ArrayAdapter<String> graduationYearspinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -57,13 +65,27 @@ public class SignUpActivity extends AppCompatActivity {
         mEmailEditText = (EditText) findViewById (R.id.activity_signup_emailEditText);
         mPasswordEditText = (EditText) findViewById (R.id.activity_signup_passwordEditText);
         mLoginTextView = (TextView) findViewById (R.id.activity_signup_loginTextView);
-        mimageView = (ImageView) findViewById (R.id.activity_signup_imageView);
+        mProfileImageView = (ImageView) findViewById (R.id.activity_signup_imageView);
         mCollegeNameEditText = (EditText) findViewById (R.id.activity_signup_collegeNameEditText);
         mCourseNameEditText = (EditText) findViewById (R.id.activity_signup_courseName_EditText);
-        mGraduationYearEditText = (EditText) findViewById (R.id.activity_signup_graduationYearEditText);
+        mGraduationYearSpinner = (Spinner) findViewById (R.id.activity_signup_graduationYearSpinner);
         mCompanyNameEditText = (EditText) findViewById (R.id.activity_signup_companyNameEditText);
         mJobProfileEditText = (EditText) findViewById (R.id.activity_signup_jobProfile_EditText);
 
+        mGraduationYearSpinner.setAdapter(graduationYearspinnerAdapter);
+        mImageAddress = Uri.fromFile(new File("C:\\Users\\piyus\\AndroidStudioProjects\\MonGuide\\app\\src\\main\\res\\drawable-v24\\default_profile_photo.png"));
+
+
+        mGraduationYearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mGraduationYearInt = Integer.parseInt(parent.getItemAtPosition(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         mSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,15 +102,15 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        mimageView.setOnClickListener(new View.OnClickListener() {
+        mProfileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
             }
         });
-    }
 
+    }
 
     private void sendToDatabase(){
         String email = mEmailEditText.getText().toString();
@@ -101,10 +123,11 @@ public class SignUpActivity extends AppCompatActivity {
                     String mUID = mAuth.getCurrentUser().getUid();
 
                     if(TextUtils.isEmpty(mCompanyNameEditText.getText()) && TextUtils.isEmpty(mJobProfileEditText.getText()))
-                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), Integer.parseInt(mGraduationYearEditText.getText().toString())), new UserDetails.WorkDetails()));
+                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), mGraduationYearInt), new UserDetails.WorkDetails()));
                     else
-                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), Integer.parseInt(mGraduationYearEditText.getText().toString())), new UserDetails.WorkDetails(mCompanyNameEditText.getText().toString(), mJobProfileEditText.getText().toString())));
+                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), mGraduationYearInt), new UserDetails.WorkDetails(mCompanyNameEditText.getText().toString(), mJobProfileEditText.getText().toString())));
 
+                    uploadProfilePictureAToDatabase(mUID);
                     startHomeActivity();
                 } else {
                     Toast.makeText(SignUpActivity.this, "Enter Valid Email-id or Password", Toast.LENGTH_LONG).show();
@@ -114,14 +137,24 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
-            Uri imageAddress = data.getData();
-            mimageView.setImageURI(imageAddress);
+            mImageAddress = data.getData();
+            mProfileImageView.setImageURI(mImageAddress);
         }
+    }
+
+
+    private void uploadProfilePictureAToDatabase(String uid) {
+        StorageHelper.getRefrenceToParticularProfilePicture(uid).putFile(mImageAddress).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            }
+        });
     }
 
     private void startLoginActivity() {
@@ -155,21 +188,15 @@ public class SignUpActivity extends AppCompatActivity {
 
     private boolean checkEducationDetails() {
 
-        if(TextUtils.isEmpty(mCollegeNameEditText.getText())){
+        if(TextUtils.isEmpty(mCollegeNameEditText.getText())) {
             mCollegeNameEditText.setError("College name required");
             return false;
         }
 
-        if(TextUtils.isEmpty(mCourseNameEditText.getText())){
+        if(TextUtils.isEmpty(mCourseNameEditText.getText())) {
             mCourseNameEditText.setError("Course name required");
             return false;
         }
-
-        if(TextUtils.isEmpty(mGraduationYearEditText.getText())){
-            mGraduationYearEditText.setError("Graduation year required.");
-            return false;
-        }
-
         return true;
     }
 

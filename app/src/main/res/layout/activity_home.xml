@@ -9,11 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentTop="true"
-        android:background="#2C2A2A"
+        android:background="@color/colorPrimaryDark"
         android:elevation="16dp"
-        app:menu="@menu/activity_home_toolbar"
         app:title="MonGuide"
-        app:titleTextColor="#D1CDCD">
+        app:titleTextColor="@color/colorWhite">
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
@@ -21,19 +20,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/activity_home_toolbar"
-        android:layout_above="@+id/activity_home_bottomnavigationview"
-        android:background="#363636">
+        android:layout_above="@+id/activity_home_bottomnavigationview">
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/activity_home_bottomnavigationview"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="#2C2A2A"
+        android:background="@color/colorPrimaryDark"
         app:menu="@menu/activity_home_bottomnavigationview"
         android:layout_alignParentBottom="true"
         app:labelVisibilityMode="unlabeled"
         android:elevation="16dp">
+
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

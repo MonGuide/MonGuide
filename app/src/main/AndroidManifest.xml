@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name="com.monguide.monguide.loginandsignup.SignUpActivity">
+
         </activity>
 
         <activity android:name="com.monguide.monguide.loginandsignup.LoginActivity">
