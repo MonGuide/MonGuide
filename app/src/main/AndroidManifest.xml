@@ -21,15 +21,18 @@
         </activity>
 
         <activity android:name="com.monguide.monguide.home.HomeActivity">
+        </activity>
+
+        <activity android:name="com.monguide.monguide.profile.ViewProfile">
+        </activity>
+
+        <activity android:name="com.monguide.monguide.question.AddQuestionActivity">
             <intent-filter>
                 <action android:name=
                     "android.intent.action.MAIN" />
                 <category android:name=
                     "android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity android:name="com.monguide.monguide.profile.ViewProfile">
         </activity>
 
     </application>

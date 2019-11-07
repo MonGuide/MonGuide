@@ -30,7 +30,7 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.fragment_notification, container, false);
 
-        Notification notification = new Notification("Harry Potter upvoted your answer to: What is a black hole?");
+        /*Notification notification = new Notification("Harry Potter upvoted your answer to: What is a black hole?");
 
         SpannableString ss = new SpannableString(notification.getText());
         ClickableSpan clickableSpan = new ClickableSpan() {
@@ -50,7 +50,7 @@ public class NotificationsFragment extends Fragment {
         mcomment.setText(ss);
         mcomment.setMovementMethod(LinkMovementMethod.getInstance());
         mcomment.setHighlightColor(Color.TRANSPARENT);
-
+        */
         return inflatedView;
     }
 }
