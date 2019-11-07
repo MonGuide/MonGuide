@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:text="Log In"
             android:layout_marginBottom="10dp">
-            <!-- android:background="@drawable/shape_roundrectangle" -->
+            <!-- android:background="@drawable/background_questionsummaryitem" -->
         </androidx.appcompat.widget.AppCompatButton>
 
         <androidx.appcompat.widget.AppCompatTextView

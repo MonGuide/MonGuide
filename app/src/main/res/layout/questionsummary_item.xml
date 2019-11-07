@@ -6,12 +6,14 @@
     android:layout_margin="8dp"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@drawable/shape_roundrectangle">
+    android:background="@drawable/background_questionsummaryitem"
+    android:elevation="16dp">
 
     <!-- Shimmer -->
     <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
         <include layout="@layout/questionsummary_item_placeholderforshimmer"/>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -20,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <!-- for profile picture, name and time-->
         <LinearLayout

@@ -5,11 +5,13 @@
         android:id="@+id/activity_home_bottomnavigationview_menuitem_home"
         android:title="Home" android:icon="@drawable/fill_home">
     </item>
+
     <!-- Empty item to fill space only -->
     <item
         android:title=""
         android:enabled="false">
     </item>
+
     <item
         android:id="@+id/activity_home_bottomnavigationview_menuitem_notifications"
         android:title="Notifications"

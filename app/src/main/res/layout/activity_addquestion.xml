@@ -33,7 +33,7 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_roundrectangle">
+            android:background="@drawable/background_questionsummaryitem">
         </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -54,7 +54,7 @@
             android:lines="6"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:scrollHorizontally="false"
-            android:background="@drawable/shape_roundrectangle">
+            android:background="@drawable/background_questionsummaryitem">
         </androidx.appcompat.widget.AppCompatEditText>
 
     </LinearLayout>

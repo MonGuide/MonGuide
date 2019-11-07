@@ -10,14 +10,14 @@
         android:layout_height="56dp"
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimaryDark"
-        android:elevation="16dp"
-        app:menu="@menu/activity_home_toolbar"
-        app:titleTextColor="@color/colorWhite">
+        android:elevation="8dp"
+        app:menu="@menu/activity_home_toolbar">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_monguide" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
@@ -37,9 +37,7 @@
         app:menu="@menu/activity_home_bottomnavigationview"
         android:layout_alignParentBottom="true"
         app:labelVisibilityMode="selected"
-        android:elevation="16dp">
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        android:elevation="8dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
@@ -48,7 +46,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_margin="28dp"
-        app:elevation="32dp"
+        app:elevation="24dp"
         android:clickable="true"/>
 
 </RelativeLayout>

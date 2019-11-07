@@ -39,7 +39,7 @@
             android:minLines="2"
             android:textSize="16dp"
             android:textColor="#DBDBDB"
-            android:background="@drawable/shape_roundrectangle"
+            android:background="@drawable/background_questionsummaryitem"
             android:layout_width="match_parent">
         </com.google.android.material.textfield.TextInputEditText>
         <androidx.appcompat.widget.AppCompatImageButton
