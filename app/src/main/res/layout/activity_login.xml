@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/colorPrimaryDark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             android:paddingRight="24dp"
             android:textSize="16dp"
             android:drawableRight="@drawable/ic_email_24dp"
-            android:elevation="8dp">
+            android:elevation="16dp">
         </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -53,7 +53,7 @@
             android:paddingRight="24dp"
             android:textSize="16dp"
             android:drawableRight="@drawable/ic_lock_24dp"
-            android:elevation="8dp">
+            android:elevation="16dp">
         </androidx.appcompat.widget.AppCompatEditText>
 
 
@@ -69,19 +69,30 @@
             android:textStyle="bold"
             android:layout_marginBottom="16dp"
             android:textColor="@color/colorPrimaryDark"
-            android:background="@drawable/background_login_loginbutton"
-            android:elevation="24dp">
+            android:stateListAnimator="@null"
+            android:elevation="16dp"
+            android:background="@drawable/background_login_loginbutton">
+
         </androidx.appcompat.widget.AppCompatButton>
 
+        <ProgressBar
+            android:id="@+id/activity_login_progressbar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:indeterminateTint="@color/colorYellow"
+            android:visibility="gone">
+        </ProgressBar>
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:id="@+id/activity_login_signuptextview"
-            android:text="Don't have an account? Sign up"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:text="Don't have an account? Sign up."
             android:textColor="@color/colorWhite"
-            android:textSize="16dp"
-            android:elevation="8dp">
+            android:textSize="16dp">
         </androidx.appcompat.widget.AppCompatTextView>
 
     </LinearLayout>

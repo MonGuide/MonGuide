@@ -11,6 +11,7 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,8 +30,11 @@ import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private static int RESULT_LOAD_IMAGE = 1;
-    private int mGraduationYearInt;
+    private static final int RESULT_LOAD_IMAGE = 1;
+
+    private int mGraduationYear;
+
+    private Toolbar mToolbar;
     private ImageView mProfileImageView;
     private EditText mUsernameEditText;
     private EditText mEmailEditText;
@@ -48,6 +52,14 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        mToolbar = (Toolbar) findViewById(R.id.activity_signup_toolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         ArrayList<String> years = new ArrayList<String>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -77,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
         mGraduationYearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mGraduationYearInt = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                mGraduationYear = Integer.parseInt(parent.getItemAtPosition(position).toString());
             }
 
             @Override
@@ -115,9 +127,9 @@ public class SignUpActivity extends AppCompatActivity {
                     String mUID = mAuth.getCurrentUser().getUid();
 
                     if(TextUtils.isEmpty(mCompanyNameEditText.getText()) && TextUtils.isEmpty(mJobProfileEditText.getText()))
-                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), mGraduationYearInt), new UserDetails.WorkDetails()));
+                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), mGraduationYear), new UserDetails.WorkDetails()));
                     else
-                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), mGraduationYearInt), new UserDetails.WorkDetails(mCompanyNameEditText.getText().toString(), mJobProfileEditText.getText().toString())));
+                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), mGraduationYear), new UserDetails.WorkDetails(mCompanyNameEditText.getText().toString(), mJobProfileEditText.getText().toString())));
 
                     uploadProfilePictureAToDatabase(mUID);
                     startHomeActivity();
@@ -149,13 +161,10 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void startLoginActivity() {
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
-    }
-
     private void startHomeActivity() {
-        startActivity(new Intent(this, HomeActivity.class));
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
     }
 
@@ -163,18 +172,16 @@ public class SignUpActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(mCompanyNameEditText.getText()) && TextUtils.isEmpty(mJobProfileEditText.getText())){
             return true;
-        }
-
-        if(!TextUtils.isEmpty(mCompanyNameEditText.getText()) && !TextUtils.isEmpty(mJobProfileEditText.getText())){
+        } else if(!TextUtils.isEmpty(mCompanyNameEditText.getText()) && !TextUtils.isEmpty(mJobProfileEditText.getText())){
             return true;
-        }
-
-        if(TextUtils.isEmpty(mCompanyNameEditText.getText()) && !TextUtils.isEmpty(mJobProfileEditText.getText())){
-            mCompanyNameEditText.setError("Company name required");
-            return false;
-        } else{
-            mJobProfileEditText.setError("Job profile required");
-            return false;
+        } else {
+            if (TextUtils.isEmpty(mCompanyNameEditText.getText()) && !TextUtils.isEmpty(mJobProfileEditText.getText())) {
+                mCompanyNameEditText.setError("Company name required");
+                return false;
+            } else {
+                mJobProfileEditText.setError("Job profile required");
+                return false;
+            }
         }
     }
 

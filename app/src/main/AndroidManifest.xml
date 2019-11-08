@@ -13,10 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.monguide.monguide.loginandsignup.SignUpActivity">
-
-        </activity>
-
         <activity android:name="com.monguide.monguide.loginandsignup.LoginActivity">
             <intent-filter>
                 <action android:name=
@@ -24,10 +20,14 @@
                 <category android:name=
                     "android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
-        <activity android:name="com.monguide.monguide.home.HomeActivity">
+        <activity android:name="com.monguide.monguide.loginandsignup.SignUpActivity"
+            android:launchMode="singleTop">
+        </activity>
+
+        <activity android:name="com.monguide.monguide.home.HomeActivity"
+            android:launchMode="singleTask">
         </activity>
 
         <activity android:name="com.monguide.monguide.profile.ViewProfile">
