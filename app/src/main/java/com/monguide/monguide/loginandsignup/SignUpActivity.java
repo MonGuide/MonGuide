@@ -60,10 +60,10 @@ public class SignUpActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         mSignupButton = (Button) findViewById (R.id.activity_signup_signupbutton);
-        mUsernameEditText = (EditText) findViewById (R.id.activity_signup_nameEditText);
-        mEmailEditText = (EditText) findViewById (R.id.activity_signup_emailEditText);
-        mPasswordEditText = (EditText) findViewById (R.id.activity_signup_passwordEditText);
-        mProfileImageView = (ImageView) findViewById (R.id.activity_signup_imageView);
+        mUsernameEditText = (EditText) findViewById (R.id.activity_signup_nameedittext);
+        mEmailEditText = (EditText) findViewById (R.id.activity_signup_emailedittext);
+        mPasswordEditText = (EditText) findViewById (R.id.activity_signup_passwordedittext);
+        mProfileImageView = (ImageView) findViewById (R.id.activity_signup_profilepictureimageview);
         mCollegeNameEditText = (EditText) findViewById (R.id.activity_signup_collegeNameEditText);
         mCourseNameEditText = (EditText) findViewById (R.id.activity_signup_courseName_EditText);
         mGraduationYearSpinner = (Spinner) findViewById (R.id.activity_signup_graduationYearSpinner);

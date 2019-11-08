@@ -111,12 +111,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startSignUpActivity() {
         startActivity(new Intent(this,SignUpActivity.class));
-        finish();
     }
 
     private void startHomeActivity() {
         Log.e("MONGUIDE", "Successfully logged in...");
-
         startActivity(new Intent(this, HomeActivity.class));
         finish();
     }
