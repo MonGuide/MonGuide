@@ -39,7 +39,8 @@
         android:layout_alignParentBottom="true"
         app:labelVisibilityMode="selected"
         android:elevation="8dp"
-        app:itemIconTint="@color/colorYellow"/>
+        app:itemIconTint="@color/colorYellow"
+        app:itemTextColor="@color/colorYellow"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"

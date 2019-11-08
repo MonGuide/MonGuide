@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:padding="3dp">
+    android:layout_width="match_parent" android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/notification_item_profileimage"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:outlineProvider="bounds"
-        android:scaleType="centerCrop"
-        android:src="@drawable/temp_harrypotter"
-        android:layout_centerVertical="true">
-    </ImageView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:background="@drawable/background_addquestion_edittext"
+        android:elevation="8dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/notification_item_commenttextview"
-        android:textColor="#000000"
-        android:text="Harry Potter upvoted your answer to:  What evidence do we have for the existence of black holes?"
-        android:maxLines="5"
-        android:layout_toEndOf="@+id/notification_item_profileimage"
-        android:layout_marginLeft="3dp">
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/notification_item_profileimage"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:outlineProvider="bounds"
+            android:scaleType="centerCrop"
+            android:src="@drawable/temp_harrypotter"
+            android:layout_centerVertical="true">
+        </ImageView>
 
-    </androidx.appcompat.widget.AppCompatTextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:gravity="left|center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/notification_item_commenttextview"
+                android:textColor="#000000"
+                android:text="Harry Potter upvoted your answer to:  What evidence do we have for the existence of black holes?"
+                android:lines="4"
+                android:padding="8dp">
+            </androidx.appcompat.widget.AppCompatTextView>
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
