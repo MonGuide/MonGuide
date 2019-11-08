@@ -32,8 +32,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMAGE = 1;
 
-    private int mGraduationYear;
-
     private Toolbar mToolbar;
     private ImageView mProfileImageView;
     private EditText mUsernameEditText;
@@ -41,9 +39,10 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mPasswordEditText;
     private EditText mCollegeNameEditText;
     private EditText mCourseNameEditText;
-    private Spinner mGraduationYearSpinner;
+    private EditText mGraduationYearEditText;
     private EditText mCompanyNameEditText;
     private EditText mJobProfileEditText;
+    private ProgressBar mProgressBar;
     private Button mSignupButton;
     private Uri mImageAddress;
     private FirebaseAuth mAuth;
@@ -61,50 +60,30 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<String> years = new ArrayList<String>();
-        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = 1950; i <= thisYear+10; i++) {
-            years.add(Integer.toString(i));
-        }
-        ArrayAdapter<String> graduationYearspinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
-
-
         mAuth = FirebaseAuth.getInstance();
 
-        mSignupButton = (Button) findViewById (R.id.activity_signup_signupbutton);
         mUsernameEditText = (EditText) findViewById (R.id.activity_signup_nameedittext);
         mEmailEditText = (EditText) findViewById (R.id.activity_signup_emailedittext);
         mPasswordEditText = (EditText) findViewById (R.id.activity_signup_passwordedittext);
         mProfileImageView = (ImageView) findViewById (R.id.activity_signup_profilepictureimageview);
         mCollegeNameEditText = (EditText) findViewById (R.id.activity_signup_collegeNameEditText);
         mCourseNameEditText = (EditText) findViewById (R.id.activity_signup_courseName_EditText);
-        mGraduationYearSpinner = (Spinner) findViewById (R.id.activity_signup_graduationYearSpinner);
+        mGraduationYearEditText = (EditText) findViewById(R.id.activity_signup_graduationyearedittext);
         mCompanyNameEditText = (EditText) findViewById (R.id.activity_signup_companyNameEditText);
         mJobProfileEditText = (EditText) findViewById (R.id.activity_signup_jobProfile_EditText);
+        mProgressBar = (ProgressBar) findViewById(R.id.activity_signup_progressbar);
+        mSignupButton = (Button) findViewById (R.id.activity_signup_signupbutton);
 
-        mGraduationYearSpinner.setAdapter(graduationYearspinnerAdapter);
         mImageAddress = Uri.fromFile(new File("C:\\Users\\piyus\\AndroidStudioProjects\\MonGuide\\app\\src\\main\\res\\drawable-v24\\default_profile_photo.png"));
-
-
-        mGraduationYearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mGraduationYear = Integer.parseInt(parent.getItemAtPosition(position).toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
 
         mSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkProfileDetails() && checkEducationDetails() && checkWorkDetails())
+                if(checkProfileDetails() && checkEducationDetails() && checkWorkDetails()) {
                     sendToDatabase();
+                }
             }
         });
-
 
         mProfileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,46 +96,74 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void sendToDatabase(){
+        mSignupButton.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+
         String email = mEmailEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(
+                SignUpActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     String mUID = mAuth.getCurrentUser().getUid();
-
-                    if(TextUtils.isEmpty(mCompanyNameEditText.getText()) && TextUtils.isEmpty(mJobProfileEditText.getText()))
-                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), mGraduationYear), new UserDetails.WorkDetails()));
-                    else
-                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(new UserDetails(mUsernameEditText.getText().toString(), new UserDetails.EducationDetails(mCollegeNameEditText.getText().toString(), mCourseNameEditText.getText().toString(), mGraduationYear), new UserDetails.WorkDetails(mCompanyNameEditText.getText().toString(), mJobProfileEditText.getText().toString())));
-
-                    uploadProfilePictureAToDatabase(mUID);
+                    if(TextUtils.isEmpty(mCompanyNameEditText.getText()) &&
+                            TextUtils.isEmpty(mJobProfileEditText.getText())) {
+                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(
+                                new UserDetails(
+                                        mUsernameEditText.getText().toString(),
+                                        new UserDetails.EducationDetails(
+                                                mCollegeNameEditText.getText().toString(),
+                                                mCourseNameEditText.getText().toString(),
+                                                Integer.parseInt(mGraduationYearEditText.getText().toString())
+                                        ),
+                                        new UserDetails.WorkDetails()
+                                )
+                        );
+                    } else {
+                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(
+                                new UserDetails(
+                                        mUsernameEditText.getText().toString(),
+                                        new UserDetails.EducationDetails(
+                                                mCollegeNameEditText.getText().toString(),
+                                                mCourseNameEditText.getText().toString(),
+                                                Integer.parseInt(mGraduationYearEditText.getText().toString())
+                                        ),
+                                        new UserDetails.WorkDetails(
+                                                mCompanyNameEditText.getText().toString(),
+                                                mJobProfileEditText.getText().toString()
+                                        )
+                                )
+                        );
+                    }
+                    //uploadProfilePictureAToDatabase(mUID);
                     startHomeActivity();
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Enter Valid Email-id or Password", Toast.LENGTH_LONG).show();
+                    mProgressBar.setVisibility(View.GONE);
+                    mSignupButton.setVisibility(View.VISIBLE);
+                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.error), Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        // for image
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
             mImageAddress = data.getData();
             mProfileImageView.setImageURI(mImageAddress);
         }
     }
 
-
     private void uploadProfilePictureAToDatabase(String uid) {
         StorageHelper.getRefrenceToParticularProfilePicture(uid).putFile(mImageAddress).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
             }
         });
     }
@@ -168,54 +175,47 @@ public class SignUpActivity extends AppCompatActivity {
         finish();
     }
 
-    private boolean checkWorkDetails() {
 
-        if(TextUtils.isEmpty(mCompanyNameEditText.getText()) && TextUtils.isEmpty(mJobProfileEditText.getText())){
-            return true;
-        } else if(!TextUtils.isEmpty(mCompanyNameEditText.getText()) && !TextUtils.isEmpty(mJobProfileEditText.getText())){
-            return true;
+    private boolean checkProfileDetails() {
+        if(TextUtils.isEmpty(mUsernameEditText.getText())){
+            mUsernameEditText.setError(getResources().getString(R.string.required));
+            return false;
+        } else if(TextUtils.isEmpty(mPasswordEditText.getText())){
+            mPasswordEditText.setError(getResources().getString(R.string.required));
+            return false;
+        } else if(TextUtils.isEmpty(mEmailEditText.getText())){
+            mEmailEditText.setError(getResources().getString(R.string.required));
+            return false;
         } else {
-            if (TextUtils.isEmpty(mCompanyNameEditText.getText()) && !TextUtils.isEmpty(mJobProfileEditText.getText())) {
-                mCompanyNameEditText.setError("Company name required");
-                return false;
-            } else {
-                mJobProfileEditText.setError("Job profile required");
-                return false;
-            }
+            return true;
         }
     }
 
     private boolean checkEducationDetails() {
-
         if(TextUtils.isEmpty(mCollegeNameEditText.getText())) {
-            mCollegeNameEditText.setError("College name required");
+            mCollegeNameEditText.setError(getResources().getString(R.string.required));
             return false;
-        }
-
-        if(TextUtils.isEmpty(mCourseNameEditText.getText())) {
-            mCourseNameEditText.setError("Course name required");
+        } else if(TextUtils.isEmpty(mCourseNameEditText.getText())) {
+            mCourseNameEditText.setError(getResources().getString(R.string.required));
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
-    private boolean checkProfileDetails() {
-
-        if(TextUtils.isEmpty(mUsernameEditText.getText())){
-            mUsernameEditText.setError("Name required");
-            return false;
+    private boolean checkWorkDetails() {
+        // Return true if both are filled or both are empty
+        if((TextUtils.isEmpty(mCompanyNameEditText.getText()) && TextUtils.isEmpty(mJobProfileEditText.getText())) ||
+                (!TextUtils.isEmpty(mCompanyNameEditText.getText()) && !TextUtils.isEmpty(mJobProfileEditText.getText()))) {
+            return true;
+        } else {
+            if(TextUtils.isEmpty(mCompanyNameEditText.getText())) {
+                mCompanyNameEditText.setError(getResources().getString(R.string.required));
+                return false;
+            } else {
+                mJobProfileEditText.setError(getResources().getString(R.string.required));
+                return false;
+            }
         }
-
-        if(TextUtils.isEmpty(mPasswordEditText.getText())){
-            mPasswordEditText.setError("Password required");
-            return false;
-        }
-
-        if(TextUtils.isEmpty(mEmailEditText.getText())){
-            mEmailEditText.setError("Email required");
-            return false;
-        }
-
-        return true;
     }
 }

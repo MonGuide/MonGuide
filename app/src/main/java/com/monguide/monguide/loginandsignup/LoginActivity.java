@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null) {
-            startHomeActivity();
+            startHomeActivity(false);
         }
 
         setContentView(R.layout.activity_login);
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if(mAuth.getCurrentUser() != null) {
-            startHomeActivity();
+            startHomeActivity(false);
         }
     }
 
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        startHomeActivity();
+                        startHomeActivity(true);
                     } else {
                         mProgressBar.setVisibility(View.GONE);
                         mSignupTextView.setVisibility(View.VISIBLE);
@@ -106,10 +106,10 @@ public class LoginActivity extends AppCompatActivity {
         String email = mEmailEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
         if(TextUtils.isEmpty(email)) {
-            mEmailEditText.setError(getResources().getString(R.string.illegal_login));
+            mEmailEditText.setError(getResources().getString(R.string.required));
             return false;
         } else if(TextUtils.isEmpty(password)) {
-            mPasswordEditText.setError(getResources().getString(R.string.illegal_login));
+            mPasswordEditText.setError(getResources().getString(R.string.required));
             return false;
         }
         return true;
@@ -119,9 +119,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this,SignUpActivity.class));
     }
 
-    private void startHomeActivity() {
+    private void startHomeActivity(boolean startWithAnimation) {
         Intent intent = new Intent(this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if(!startWithAnimation)
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
         finish();
     }

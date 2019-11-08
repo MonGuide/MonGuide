@@ -17,10 +17,11 @@
         app:navigationIcon="@drawable/ic_back_24dp">
     </androidx.appcompat.widget.Toolbar>
 
+    <!-- for progress bar and signin button padding bottom is given -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/activity_signup_signupbutton"
+        android:paddingBottom="56dp"
         android:layout_below="@id/activity_signup_toolbar"
         android:scrollbars="none">
 
@@ -132,25 +133,15 @@
                     android:inputType="text"
                     android:background="@drawable/background_signup_edittext"/>
 
-                <!-- spinner for graduation year -->
-                <LinearLayout
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/activity_signup_graduationyearedittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="16dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Graduation Year"
-                        android:textSize="16dp"/>
-
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/activity_signup_graduationYearSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
+                    android:layout_marginTop="16dp"
+                    android:textSize="16dp"
+                    android:hint="Graduation year"
+                    android:inputType="number"
+                    android:background="@drawable/background_signup_edittext"/>
 
             </LinearLayout>
 
@@ -202,6 +193,18 @@
 
     </ScrollView>
 
+    <ProgressBar
+        android:id="@+id/activity_signup_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/background_signup_signupbutton"
+        android:padding="8dp"
+        android:indeterminateTint="@color/colorYellow"
+        android:visibility="gone">
+    </ProgressBar>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/activity_signup_signupbutton"
         android:layout_width="match_parent"
@@ -211,7 +214,6 @@
         android:textSize="16dp"
         android:textStyle="bold"
         android:textColor="@color/colorYellow"
-        android:background="@drawable/background_signup_signupbutton">
-    </androidx.appcompat.widget.AppCompatButton>
+        android:background="@drawable/background_signup_signupbutton"/>
 
 </RelativeLayout>

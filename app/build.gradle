@@ -30,9 +30,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.1.0'
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
 
+    implementation 'com.google.firebase:firebase-storage:16.0.4'
+
     implementation 'com.google.firebase:firebase-database:19.2.0'
 
-    implementation 'com.google.firebase:firebase-storage:16.0.4'
 
     // shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
