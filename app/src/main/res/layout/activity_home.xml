@@ -50,6 +50,7 @@
         android:layout_margin="28dp"
         app:elevation="24dp"
         android:clickable="true"
-        android:backgroundTint="@color/colorYellow"/>
+        android:backgroundTint="@color/colorYellow"
+        app:borderWidth="0dp"/>
 
 </RelativeLayout>
