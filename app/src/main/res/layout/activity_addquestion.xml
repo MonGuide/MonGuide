@@ -6,10 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/activity_addquestion_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
-        android:id="@+id/activity_addquestion_toolbar"
         app:navigationIcon="@drawable/ic_back_24dp"
         app:titleTextColor="@color/colorYellow"
         app:title="Add Question"/>
