@@ -3,6 +3,8 @@ package com.monguide.monguide.models.question;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @IgnoreExtraProperties
@@ -25,7 +27,11 @@ public class QuestionSummary {
         this.upvoteCount = 0;
         this.downvoteCount = 0;
         this.answerCount = 0;
-        this.timestamp = new Date().toString();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+        Calendar calendar = Calendar.getInstance();
+        simpleDateFormat.applyPattern("h:mm a dd MMM  yyyy");
+        this.timestamp = simpleDateFormat.format(calendar.getTime());
     }
 
     public String getUid() {
