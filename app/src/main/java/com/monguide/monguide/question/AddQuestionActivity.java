@@ -10,13 +10,14 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.monguide.monguide.R;
-import com.monguide.monguide.models.question.Question;
+import com.monguide.monguide.models.question.QuestionSummary;
 import com.monguide.monguide.utils.DatabaseHelper;
 
 public class AddQuestionActivity extends AppCompatActivity {
     private EditText mTitleEditText;
-    private EditText mDescriptionEditText;
+    private EditText mBodyEditText;
     private Button mSubmitButton;
 
 
@@ -25,7 +26,7 @@ public class AddQuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addquestion);
         mTitleEditText = findViewById(R.id.activity_addquestion_titleedittext);
-        mDescriptionEditText = findViewById(R.id.activity_addquestion_descriptionedittext);
+        mBodyEditText = findViewById(R.id.activity_addquestion_bodyedittext);
         mSubmitButton = findViewById(R.id.activity_addquestion_submitbutton);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,17 +39,23 @@ public class AddQuestionActivity extends AppCompatActivity {
 
     private void sendToDatabase(){
         String mQID = DatabaseHelper.getReferenceToAllQuestions().push().getKey();
-        //DatabaseHelper.getReferenceToParticularQuestion(mQID).setValue(new Question(mTitleEditText.getText().toString(), mDescriptionEditText.getText().toString()));
-        Toast.makeText(AddQuestionActivity.this,"Question added",Toast.LENGTH_SHORT).show();
+        DatabaseHelper.getReferenceToParticularQuestion(mQID)
+                .setValue(
+                        new QuestionSummary(
+                                FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                mTitleEditText.getText().toString(),
+                                mBodyEditText.getText().toString()
+                        )
+                );
+        Toast.makeText(AddQuestionActivity.this,"Question added successfully.",Toast.LENGTH_SHORT).show();
     }
 
     private boolean checkQuestionDetails() {
         if(TextUtils.isEmpty(mTitleEditText.getText())) {
             mTitleEditText.setError("Title Required");
             return false;
-        }
-        if(TextUtils.isEmpty(mDescriptionEditText.getText())) {
-            mDescriptionEditText.setError("Description required");
+        } else if(TextUtils.isEmpty(mBodyEditText.getText())) {
+            mBodyEditText.setError("Description required");
             return false;
         }
         return true;

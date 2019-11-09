@@ -162,7 +162,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void uploadProfilePictureAToDatabase() {
         String uid = mAuth.getCurrentUser().getUid();
-        StorageHelper.getRefrenceToParticularProfilePicture(uid)
+        StorageHelper.getReferenceToProfilePictureOfParticularUser(uid)
                 .putFile(mImageAddress)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

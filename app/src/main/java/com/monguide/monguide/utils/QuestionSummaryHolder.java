@@ -2,20 +2,25 @@ package com.monguide.monguide.utils;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.monguide.monguide.R;
 
 
 public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
     private String mUID;
     private String mQID;
+
+    private ShimmerFrameLayout mPlaceholderForShimmerContainer;
+    private LinearLayout mFullQuestionSummaryContainer;
+    private LinearLayout mUserDetailsContainer;
+    private LinearLayout mTitleBodyContainer;
 
     private ImageView mProfilePictureImageView;
     private TextView mUserNameTextView;
@@ -25,57 +30,95 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
     private TextView mUpvoteCountTextView;
     private TextView mDownVoteCountTextView;
     private TextView mAnswerCountTextView;
-    private Button mUpvoteButtom;
-    private Button mDownVoteButton;
+    private ImageButton mUpvoteButtom;
+    private ImageButton mDownVoteButton;
     private TextView mAddAnswerTextView;
-
-    private LinearLayout mUserDetailsContainer;
-    private LinearLayout mQuestionDetailsContainer;
-
-    private final View.OnClickListener redirectToUserProfileInFocus
-            = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // redirect to user profile
-            Toast.makeText(v.getContext(), "User profile", Toast.LENGTH_LONG).show();
-        }
-    };
-
-    private final View.OnClickListener redirectToFullQuestion
-            = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // redirect to user profile
-            // WORKING TILL HERE
-            Toast.makeText(v.getContext(), "Full Question", Toast.LENGTH_LONG).show();
-        }
-    };
 
     public QuestionSummaryHolder(View view) {
         super(view);
+
         mProfilePictureImageView = view.findViewById(R.id.questionsummary_item_profilepictureimageview);
         mUserNameTextView = view.findViewById(R.id.questionsummary_item_usernametextview);
+        mTimeStampTextView = view.findViewById(R.id.questionsummary_item_timestamptextview);
         mTitleTextView = view.findViewById(R.id.questionsummary_item_titletextview);
         mBodyTextView = view.findViewById(R.id.questionsummary_item_bodytextview);
+        mUpvoteCountTextView = view.findViewById(R.id.questionsummary_item_upvotecounttextview);
+        mDownVoteCountTextView = view.findViewById(R.id.questionsummary_item_downvotecounttextview);
+        mAnswerCountTextView = view.findViewById(R.id.questionsummary_item_answercounttextview);
+        mUpvoteButtom = view.findViewById(R.id.questionsummary_item_upvotebutton);
+        mDownVoteButton = view.findViewById(R.id.questionsummary_item_downvotebutton);
         mAddAnswerTextView = view.findViewById(R.id.questionsummary_item_addanswertextview);
 
+        mPlaceholderForShimmerContainer = view.findViewById(R.id.questionsummary_item_shimmercontainer);
+        mFullQuestionSummaryContainer = view.findViewById(R.id.questionsummary_item_fullquestionsummarycontainer);
+
         mUserDetailsContainer = view.findViewById(R.id.questionsummary_item_userdetailscontainer);
-        mQuestionDetailsContainer = view.findViewById(R.id.questionsummary_item_questiondetailscontainer);
+        mTitleBodyContainer = view.findViewById(R.id.questionsummary_item_titlebodycontainer);
 
         // for rounded corners of profile picture
         mProfilePictureImageView.setClipToOutline(true);
+    }
 
+    public void setOnClickListenerToOpenUserProfileInFocus(String uid) {
+        View.OnClickListener redirectToUserProfileInFocus
+                = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // redirect to user profile using uid
+            }
+        };
         mUserDetailsContainer.setOnClickListener(redirectToUserProfileInFocus);
+    }
 
-        mQuestionDetailsContainer.setOnClickListener(redirectToFullQuestion);
+    public void setOnClickListenerToOpenFullQuestion(String qid) {
+        View.OnClickListener redirectToFullQuestion
+                = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // redirect to full question using qid
+            }
+        };
+        mTitleBodyContainer.setOnClickListener(redirectToFullQuestion);
         mAddAnswerTextView.setOnClickListener(redirectToFullQuestion);
     }
 
-    public TextView getTitleTextView() {
+    public ShimmerFrameLayout getmPlaceholderForShimmerContainer() {
+        return mPlaceholderForShimmerContainer;
+    }
+
+    public LinearLayout getmFullQuestionSummaryContainer() {
+        return mFullQuestionSummaryContainer;
+    }
+
+    public ImageView getmProfilePictureImageView() {
+        return mProfilePictureImageView;
+    }
+
+    public TextView getmUserNameTextView() {
+        return mUserNameTextView;
+    }
+
+    public TextView getmTimeStampTextView() {
+        return mTimeStampTextView;
+    }
+
+    public TextView getmTitleTextView() {
         return mTitleTextView;
     }
 
-    public TextView getBodyTextView() {
+    public TextView getmBodyTextView() {
         return mBodyTextView;
+    }
+
+    public TextView getmUpvoteCountTextView() {
+        return mUpvoteCountTextView;
+    }
+
+    public TextView getmDownVoteCountTextView() {
+        return mDownVoteCountTextView;
+    }
+
+    public TextView getmAnswerCountTextView() {
+        return mAnswerCountTextView;
     }
 }

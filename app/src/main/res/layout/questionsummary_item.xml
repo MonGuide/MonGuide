@@ -11,6 +11,7 @@
 
     <!-- Shimmer -->
     <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/questionsummary_item_shimmercontainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone">
@@ -19,6 +20,7 @@
 
 
     <LinearLayout
+        android:id="@+id/questionsummary_item_fullquestionsummarycontainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -56,6 +58,7 @@
                     android:text="Harry Potter"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/questionsummary_item_timestamptextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -67,7 +70,7 @@
         <!-- end -->
 
         <LinearLayout
-            android:id="@+id/questionsummary_item_questiondetailscontainer"
+            android:id="@+id/questionsummary_item_titlebodycontainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -109,6 +112,7 @@
                         android:orientation="horizontal">
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/questionsummary_item_upvotecounttextview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
@@ -131,6 +135,7 @@
                         android:layout_marginLeft="16dp">
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/questionsummary_item_downvotecounttextview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
@@ -156,6 +161,7 @@
                     android:layout_alignParentRight="true">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/questionsummary_item_answercounttextview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -201,6 +207,7 @@
                     android:baselineAligned="false">
 
                     <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/questionsummary_item_upvotebutton"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
@@ -220,6 +227,7 @@
                     android:baselineAligned="false">
 
                     <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/questionsummary_item_downvotebutton"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"

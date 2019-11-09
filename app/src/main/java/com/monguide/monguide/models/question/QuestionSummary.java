@@ -3,26 +3,29 @@ package com.monguide.monguide.models.question;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.Date;
+
 @IgnoreExtraProperties
-public class Question {
+public class QuestionSummary {
     private String uid;
+
     private Timestamp timestamp;
     private String title;
     private String body;
     private int upvoteCount;
     private int downvoteCount;
+    private int answerCount;
 
-    // Extra properties
-    // Set them explicitly after getting object from database
-    private String qid;
+    public QuestionSummary() {}
 
-    public Question() {}
-
-    public Question(String title, String body, int upvoteCount, int downvoteCount) {
+    public QuestionSummary(String uid, String title, String body) {
+        this.uid = uid;
         this.title = title;
         this.body = body;
-        this.upvoteCount = upvoteCount;
-        this.downvoteCount = downvoteCount;
+        this.upvoteCount = 0;
+        this.downvoteCount = 0;
+        this.answerCount = 0;
+        this.timestamp = new Timestamp(new Date());
     }
 
     public String getUid() {
@@ -57,16 +60,16 @@ public class Question {
         this.downvoteCount = downvoteCount;
     }
 
-    public String getQid() {
-        return qid;
-    }
-
-    public void setQid(String qid) {
-        this.qid = qid;
-    }
-
     public String getTitle() {
         return title;
+    }
+
+    public int getAnswerCount() {
+        return answerCount;
+    }
+
+    public void setAnswerCount(int answerCount) {
+        this.answerCount = answerCount;
     }
 
     public void setTitle(String title) {

@@ -13,7 +13,7 @@ public class StorageHelper {
         return getReferenceToRootStorage().child("profile-pictures");
     }
 
-    public static StorageReference getRefrenceToParticularProfilePicture(String uid){
+    public static StorageReference getReferenceToProfilePictureOfParticularUser(String uid){
         return getReferenceToAllProfilePictures().child(uid);
     }
 
