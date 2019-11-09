@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,6 +31,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private Fragment mFeedFragment;
     private Fragment mNotificationFragment;
+
+    private FragmentManager mFragmentManager;
 
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -83,12 +86,18 @@ public class HomeActivity extends AppCompatActivity {
         mFeedFragment = new FeedFragment();
         mNotificationFragment = new NotificationsFragment();
 
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.beginTransaction()
+                .add(R.id.activity_home_fragmentcontainer, mNotificationFragment)
+                .hide(mNotificationFragment).commit();
+        mFragmentManager.beginTransaction()
+                .add(R.id.activity_home_fragmentcontainer, mFeedFragment)
+                .hide(mFeedFragment).commit();
+        loadFragment(mFeedFragment);
+
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.activity_home_bottomnavigationview);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        // Load feed fragment as default fragment
         mBottomNavigationView.setSelectedItemId(R.id.activity_home_bottomnavigationview_menuitem_home);
-        loadFragment(mFeedFragment);
     }
 
     private void startAddQuestionActivity() {
@@ -103,9 +112,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.activity_home_fragmentcontainer , fragment);
-        fragmentTransaction.commit();
+        if(fragment == mFeedFragment) {
+            mFragmentManager.beginTransaction().hide(mNotificationFragment).show(mFeedFragment).commit();
+        } else {
+            mFragmentManager.beginTransaction().hide(mFeedFragment).show(mNotificationFragment).commit();
+        }
     }
 
 }

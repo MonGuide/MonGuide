@@ -1,6 +1,7 @@
 package com.monguide.monguide.home.feed;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,15 +36,16 @@ public class FeedFragment extends Fragment {
         // Setup FirebaseAdapter
         Query baseQuery = DatabaseHelper.getReferenceToAllQuestions();
         PagedList.Config config = new PagedList.Config.Builder()
-                .setEnablePlaceholders(true)
-                .setPrefetchDistance(5)
-                .setPageSize(10)
+                .setEnablePlaceholders(false)
+                .setPrefetchDistance(3)
+                .setPageSize(5)
                 .build();
         DatabasePagingOptions<QuestionSummary> options = new DatabasePagingOptions.Builder<QuestionSummary>()
                 .setLifecycleOwner(this)
                 .setQuery(baseQuery, config, QuestionSummary.class)
                 .build();
         mFirebaseQuestionSummaryAdapter = new FirebaseQuestionSummaryAdapter(options);
+        mFirebaseQuestionSummaryAdapter.startListening();
         mRecyclerView.setAdapter(mFirebaseQuestionSummaryAdapter);
 
         return inflatedView;
