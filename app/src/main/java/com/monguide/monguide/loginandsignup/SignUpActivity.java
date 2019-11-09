@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,8 +26,6 @@ import com.monguide.monguide.models.user.*;
 import com.monguide.monguide.utils.DatabaseHelper;
 import com.monguide.monguide.utils.StorageHelper;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -34,7 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private ImageView mProfileImageView;
-    private EditText mUsernameEditText;
+    private EditText mUserNameEditText;
     private EditText mEmailEditText;
     private EditText mPasswordEditText;
     private EditText mCollegeNameEditText;
@@ -62,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mUsernameEditText = (EditText) findViewById (R.id.activity_signup_nameedittext);
+        mUserNameEditText = (EditText) findViewById (R.id.activity_signup_nameedittext);
         mEmailEditText = (EditText) findViewById (R.id.activity_signup_emailedittext);
         mPasswordEditText = (EditText) findViewById (R.id.activity_signup_passwordedittext);
         mProfileImageView = (ImageView) findViewById (R.id.activity_signup_profilepictureimageview);
@@ -74,17 +73,18 @@ public class SignUpActivity extends AppCompatActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.activity_signup_progressbar);
         mSignupButton = (Button) findViewById (R.id.activity_signup_signupbutton);
 
-        mImageAddress = Uri.fromFile(new File("C:\\Users\\piyus\\AndroidStudioProjects\\MonGuide\\app\\src\\main\\res\\drawable-v24\\default_profile_photo.png"));
-
         mSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkProfileDetails() && checkEducationDetails() && checkWorkDetails()) {
+                if(hasChosenImage() && checkProfileDetails() && checkEducationDetails() && checkWorkDetails()) {
                     sendToDatabase();
                 }
             }
         });
 
+        // for rounded corners after image selection
+        // this is not recognized as an xml attribute
+        mProfileImageView.setClipToOutline(true);
         mProfileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,38 +107,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    String mUID = mAuth.getCurrentUser().getUid();
-                    if(TextUtils.isEmpty(mCompanyNameEditText.getText()) &&
-                            TextUtils.isEmpty(mJobProfileEditText.getText())) {
-                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(
-                                new UserDetails(
-                                        mUsernameEditText.getText().toString(),
-                                        new UserDetails.EducationDetails(
-                                                mCollegeNameEditText.getText().toString(),
-                                                mCourseNameEditText.getText().toString(),
-                                                Integer.parseInt(mGraduationYearEditText.getText().toString())
-                                        ),
-                                        new UserDetails.WorkDetails()
-                                )
-                        );
-                    } else {
-                        DatabaseHelper.getReferenceToParticularUser(mUID).setValue(
-                                new UserDetails(
-                                        mUsernameEditText.getText().toString(),
-                                        new UserDetails.EducationDetails(
-                                                mCollegeNameEditText.getText().toString(),
-                                                mCourseNameEditText.getText().toString(),
-                                                Integer.parseInt(mGraduationYearEditText.getText().toString())
-                                        ),
-                                        new UserDetails.WorkDetails(
-                                                mCompanyNameEditText.getText().toString(),
-                                                mJobProfileEditText.getText().toString()
-                                        )
-                                )
-                        );
-                    }
-                    //uploadProfilePictureAToDatabase(mUID);
-                    startHomeActivity();
+                    uploadUserDetails();
+                    uploadProfilePictureAToDatabase();
                 } else {
                     mProgressBar.setVisibility(View.GONE);
                     mSignupButton.setVisibility(View.VISIBLE);
@@ -148,23 +118,66 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // for image
+        // for image selected
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
             mImageAddress = data.getData();
             mProfileImageView.setImageURI(mImageAddress);
         }
     }
 
-    private void uploadProfilePictureAToDatabase(String uid) {
-        StorageHelper.getRefrenceToParticularProfilePicture(uid).putFile(mImageAddress).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+    private boolean hasChosenImage() {
+        if(mImageAddress == null) {
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+            Toast.makeText(this, getResources().getString(R.string.noImageError), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
 
-            }
+    private void uploadUserDetails() {
+        String uid = mAuth.getCurrentUser().getUid();
+        String userName = mUserNameEditText.getText().toString();
+        String collegeName = mCollegeNameEditText.getText().toString();
+        String courseName = mCourseNameEditText.getText().toString();
+        int graduationYear = Integer.parseInt(mGraduationYearEditText.getText().toString());
+        String companyName = hasWorkDetails() ? mCompanyNameEditText.getText().toString() : "N/A";
+        String jobProfile = hasWorkDetails() ? mJobProfileEditText.getText().toString() : "N/A";
+        DatabaseHelper.getReferenceToParticularUser(uid).setValue(
+                new UserDetails(
+                        userName,
+                        new UserDetails.EducationDetails(
+                                collegeName, courseName, graduationYear
+                        ),
+                        new UserDetails.WorkDetails(
+                                companyName,
+                                jobProfile
+                        )
+                )
+        );
+    }
+
+    private void uploadProfilePictureAToDatabase() {
+        String uid = mAuth.getCurrentUser().getUid();
+        StorageHelper.getRefrenceToParticularProfilePicture(uid)
+                .putFile(mImageAddress)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        startHomeActivity();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        mProgressBar.setVisibility(View.GONE);
+                        mSignupButton.setVisibility(View.VISIBLE);
+                        Toast.makeText(SignUpActivity.this, getResources().getString(R.string.error), Toast.LENGTH_LONG).show();
+                        // incomplete profile, delete this user
+                        mAuth.getCurrentUser().delete();
+                    }
         });
     }
 
@@ -177,8 +190,8 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private boolean checkProfileDetails() {
-        if(TextUtils.isEmpty(mUsernameEditText.getText())){
-            mUsernameEditText.setError(getResources().getString(R.string.required));
+        if(TextUtils.isEmpty(mUserNameEditText.getText())){
+            mUserNameEditText.setError(getResources().getString(R.string.required));
             return false;
         } else if(TextUtils.isEmpty(mPasswordEditText.getText())){
             mPasswordEditText.setError(getResources().getString(R.string.required));
@@ -201,6 +214,10 @@ public class SignUpActivity extends AppCompatActivity {
         } else {
             return true;
         }
+    }
+
+    private boolean hasWorkDetails() {
+        return !TextUtils.isEmpty(mCompanyNameEditText.getText()) && !TextUtils.isEmpty(mJobProfileEditText.getText());
     }
 
     private boolean checkWorkDetails() {

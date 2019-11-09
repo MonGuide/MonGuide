@@ -8,21 +8,22 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.SnapshotParser;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
 import com.monguide.monguide.R;
 import com.monguide.monguide.models.question.Question;
-import com.monguide.monguide.utils.QuestionSummaryAdapter;
-import com.monguide.monguide.utils.QuestionSummaryHolder;
+import com.monguide.monguide.utils.FirebaseQuestionSummaryAdapter;
 import com.monguide.monguide.utils.DatabaseHelper;
 
 public class FeedFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private QuestionSummaryAdapter mQuestionSummaryAdapter;
+    private FirebaseQuestionSummaryAdapter mFirebaseQuestionSummaryAdapter;
 
     @Nullable
     @Override
@@ -33,29 +34,23 @@ public class FeedFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mQuestionSummaryAdapter = new QuestionSummaryAdapter();
-        mRecyclerView.setAdapter(mQuestionSummaryAdapter);
+        // Setup FirebaseAdapter
+        Query baseQuery = DatabaseHelper.getReferenceToAllQuestions();
 
-        for (int i = 0; i < 30; i++) {
-            Question question = new Question("This is title " + i, "This is body " + i);
-            mQuestionSummaryAdapter.addQuestionToQuestionsList(question);
-        }
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(true)
+                .setPrefetchDistance(5)
+                .setPageSize(10)
+                .build();
+        DatabasePagingOptions<Question> options = new DatabasePagingOptions.Builder<Question>()
+                .setLifecycleOwner(this)
+                .setQuery(baseQuery, config, Question.class)
+                .build();
 
-        populateFeed();
+        mFirebaseQuestionSummaryAdapter = new FirebaseQuestionSummaryAdapter(options);
+        mRecyclerView.setAdapter(mFirebaseQuestionSummaryAdapter);
+
         return inflatedView;
     }
 
-    private void populateFeed() {
-        DatabaseHelper.getReferenceToAllQuestions().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
 }
