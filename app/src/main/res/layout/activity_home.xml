@@ -43,6 +43,7 @@
         app:itemTextColor="@color/colorYellow"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/activity_home_addquestionfloatingactionbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_24dp"
