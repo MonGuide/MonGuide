@@ -95,7 +95,12 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         mProgressBar.setVisibility(View.GONE);
                         mSignupTextView.setVisibility(View.VISIBLE);
-                        Toast.makeText(LoginActivity.this, getResources().getString(R.string.illegal_login), Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_login_rootview),
+                                getResources().getString(R.string.illegal_login),
+                                Snackbar.LENGTH_LONG);
+                        snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text)
+                                .setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        snackbar.show();
                     }
                 }
             });

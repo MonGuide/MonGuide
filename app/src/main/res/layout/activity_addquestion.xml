@@ -60,6 +60,18 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/activity_addquestion_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/background_signup_signupbutton"
+        android:padding="8dp"
+        android:indeterminateTint="@color/colorYellow"
+        android:visibility="gone">
+    </ProgressBar>
+
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="56dp"

@@ -10,7 +10,6 @@ import java.util.Date;
 @IgnoreExtraProperties
 public class QuestionSummary {
     private String uid;
-
     private String timestamp;
     private String title;
     private String body;
@@ -27,11 +26,10 @@ public class QuestionSummary {
         this.upvoteCount = 0;
         this.downvoteCount = 0;
         this.answerCount = 0;
-
+        // for custom timestamp
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-        Calendar calendar = Calendar.getInstance();
         simpleDateFormat.applyPattern("h:mm a dd MMM  yyyy");
-        this.timestamp = simpleDateFormat.format(calendar.getTime());
+        this.timestamp = simpleDateFormat.format(Calendar.getInstance().getTime());
     }
 
     public String getUid() {

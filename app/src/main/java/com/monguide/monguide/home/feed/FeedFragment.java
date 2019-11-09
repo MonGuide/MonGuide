@@ -22,32 +22,44 @@ import com.monguide.monguide.utils.FirebaseQuestionSummaryAdapter;
 
 public class FeedFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private FirebaseQuestionSummaryAdapter mFirebaseQuestionSummaryAdapter;
+    private FirebaseQuestionSummaryAdapter mAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.fragment_feed, container, false);
-
         mRecyclerView = (RecyclerView) inflatedView.findViewById(R.id.fragment_feed_recyclerview);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        setupRecyclerViewWithAdapter();
+        return inflatedView;
+    }
 
-        // Setup FirebaseAdapter
+    private void setupRecyclerViewWithAdapter() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemViewCacheSize(50);
         Query baseQuery = DatabaseHelper.getReferenceToAllQuestions();
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
-                .setPrefetchDistance(3)
-                .setPageSize(5)
+                .setPrefetchDistance(10)
+                .setPageSize(10)
                 .build();
         DatabasePagingOptions<QuestionSummary> options = new DatabasePagingOptions.Builder<QuestionSummary>()
                 .setLifecycleOwner(this)
                 .setQuery(baseQuery, config, QuestionSummary.class)
                 .build();
-        mFirebaseQuestionSummaryAdapter = new FirebaseQuestionSummaryAdapter(options);
-        mFirebaseQuestionSummaryAdapter.startListening();
-        mRecyclerView.setAdapter(mFirebaseQuestionSummaryAdapter);
+        mAdapter = new FirebaseQuestionSummaryAdapter(options);
+        mRecyclerView.setAdapter(mAdapter);
+    }
 
-        return inflatedView;
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 }
