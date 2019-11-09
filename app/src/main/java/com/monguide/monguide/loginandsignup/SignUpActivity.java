@@ -205,7 +205,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private boolean checkEducationDetails() {
-        if(TextUtils.isEmpty(mCollegeNameEditText.getText())) {
+
+        if(TextUtils.isEmpty(mGraduationYearEditText.getText())) {
+            mGraduationYearEditText.setError(getResources().getString(R.string.required));
+            return false;
+        } else if(TextUtils.isEmpty(mCollegeNameEditText.getText())) {
             mCollegeNameEditText.setError(getResources().getString(R.string.required));
             return false;
         } else if(TextUtils.isEmpty(mCourseNameEditText.getText())) {
