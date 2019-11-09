@@ -1,6 +1,7 @@
 package com.monguide.monguide.utils;
 
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.bumptech.glide.request.transition.Transition;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
 import com.firebase.ui.database.paging.LoadingState;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,33 +43,53 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
 
         // set profile picture
         // this will take time getting from server
-        String url = StorageHelper.getReferenceToProfilePictureOfParticularUser(questionSummary.getUid())
-                .getDownloadUrl().getResult().toString();
-        Glide.with(view.getContext())
-                .load(url)
-                .into(new CustomTarget<Drawable>() {
+        StorageHelper.getReferenceToProfilePictureOfParticularUser(questionSummary.getUid())
+                .getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                String url = task.getResult().toString();
+                Glide.with(view.getContext())
+                        .load(url)
+                        .into(new CustomTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                holder.getmProfilePictureImageView().setImageDrawable(resource);
+                                holder.getmFullQuestionSummaryContainer().setVisibility(View.VISIBLE);
+                                holder.getmPlaceholderForShimmerContainer().setVisibility(View.GONE);
+                                holder.getmPlaceholderForShimmerContainer().stopShimmer();
+                            }
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {}
+                        });
+            }
+        });
+        DatabaseHelper.getReferenceToParticularUser(questionSummary.getUid())
+                .child("name")
+                .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        holder.getmProfilePictureImageView().setImageDrawable(resource);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String name = dataSnapshot.getValue(String.class);
+                        holder.getmUserNameTextView().setText(name);
                     }
                     @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {}
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
         // set rest of the details
-        holder.getmTimeStampTextView().setText(questionSummary.getTimestamp().toString());
+        holder.getmTimeStampTextView().setText(questionSummary.getTimestamp());
         holder.getmTitleTextView().setText(questionSummary.getTitle());
         holder.getmBodyTextView().setText(questionSummary.getBody());
         // load them statically and then add listeners
         // for dynamic updation as well
-        holder.getmUpvoteCountTextView().setText(questionSummary.getUpvoteCount());
-        holder.getmDownVoteCountTextView().setText(questionSummary.getDownvoteCount());
-        holder.getmAnswerCountTextView().setText(questionSummary.getAnswerCount());
+        holder.getmUpvoteCountTextView().setText(String.valueOf(questionSummary.getUpvoteCount()));
+        holder.getmDownVoteCountTextView().setText(String.valueOf(questionSummary.getDownvoteCount()));
+        holder.getmAnswerCountTextView().setText(String.valueOf(questionSummary.getAnswerCount()));
         DatabaseHelper.getReferenceToParticularQuestion(qid)
                 .child("upvoteCount")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        holder.getmUpvoteCountTextView().setText(dataSnapshot.getValue(Integer.class));
+                        holder.getmUpvoteCountTextView()
+                                .setText(String.valueOf(dataSnapshot.getValue(Integer.class)));
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
@@ -76,7 +99,8 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        holder.getmDownVoteCountTextView().setText(dataSnapshot.getValue(Integer.class));
+                        holder.getmDownVoteCountTextView()
+                                .setText(String.valueOf(dataSnapshot.getValue(Integer.class)));
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
@@ -86,22 +110,8 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        holder.getmAnswerCountTextView().setText(dataSnapshot.getValue(Integer.class));
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
-        // set username, hide shimmer and show data
-        DatabaseHelper.getReferenceToParticularUser(questionSummary.getUid())
-                .child("name")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String name = dataSnapshot.getValue(String.class);
-                        holder.getmTitleTextView().setText(name);
-                        holder.getmFullQuestionSummaryContainer().setVisibility(View.VISIBLE);
-                        holder.getmPlaceholderForShimmerContainer().setVisibility(View.GONE);
-                        holder.getmPlaceholderForShimmerContainer().stopShimmer();
+                        holder.getmAnswerCountTextView()
+                                .setText(String.valueOf(dataSnapshot.getValue(Integer.class)));
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {}

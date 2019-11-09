@@ -9,7 +9,7 @@ import java.util.Date;
 public class QuestionSummary {
     private String uid;
 
-    private Timestamp timestamp;
+    private String timestamp;
     private String title;
     private String body;
     private int upvoteCount;
@@ -25,7 +25,7 @@ public class QuestionSummary {
         this.upvoteCount = 0;
         this.downvoteCount = 0;
         this.answerCount = 0;
-        this.timestamp = new Timestamp(new Date());
+        this.timestamp = new Date().toString();
     }
 
     public String getUid() {
@@ -36,11 +36,11 @@ public class QuestionSummary {
         this.uid = uid;
     }
 
-    public Timestamp getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
