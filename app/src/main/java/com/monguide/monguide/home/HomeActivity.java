@@ -71,6 +71,15 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                FirebaseAuth.getInstance().signOut();
+                startLoginActivity();
+                return false;
+            }
+        });
         mFeedFragment = new FeedFragment();
         mNotificationFragment = new NotificationsFragment();
 
@@ -90,6 +99,8 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    private void startLoginActivity() {
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 

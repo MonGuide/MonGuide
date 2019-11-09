@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:textSize="16dp"
-                    android:hint="Company Name"
+                    android:hint="Company name"
                     android:inputType="text"
                     android:background="@drawable/background_signup_edittext"/>
 
@@ -183,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:textSize="16dp"
-                    android:hint="Job Profile"
+                    android:hint="Job profile"
                     android:inputType="text"
                     android:background="@drawable/background_signup_edittext"/>
 
