@@ -65,8 +65,8 @@ public class AddQuestionActivity extends AppCompatActivity {
         QuestionSummary questionSummary
                 = new QuestionSummary(
                         FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                        mTitleEditText.getText().toString(),
-                        mBodyEditText.getText().toString());
+                        mTitleEditText.getText().toString().trim(),
+                        mBodyEditText.getText().toString().trim());
 
         DatabaseHelper.getReferenceToParticularQuestion(qid)
                 .setValue(questionSummary, new DatabaseReference.CompletionListener() {

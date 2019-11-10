@@ -1,5 +1,7 @@
 package com.monguide.monguide.utils;
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.MutableData;
@@ -16,8 +19,12 @@ import com.google.firebase.database.Transaction;
 import com.monguide.monguide.R;
 import com.monguide.monguide.models.question.QuestionSummary;
 
+import java.util.HashMap;
+
 
 public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
+    private View view;
+
     private String mUID;
     private String mQID;
 
@@ -34,12 +41,14 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
     private TextView mUpvoteCountTextView;
     private TextView mDownVoteCountTextView;
     private TextView mAnswerCountTextView;
-    private ImageView mUpvoteButtom;
+    private ImageView mUpvoteButton;
     private ImageView mDownVoteButton;
+
     private TextView mAddAnswerTextView;
 
     public QuestionSummaryHolder(View view) {
         super(view);
+        view = view;
 
         mProfilePictureImageView = view.findViewById(R.id.questionsummary_item_profilepictureimageview);
         mUserNameTextView = view.findViewById(R.id.questionsummary_item_usernametextview);
@@ -49,7 +58,7 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
         mUpvoteCountTextView = view.findViewById(R.id.questionsummary_item_upvotecounttextview);
         mDownVoteCountTextView = view.findViewById(R.id.questionsummary_item_downvotecounttextview);
         mAnswerCountTextView = view.findViewById(R.id.questionsummary_item_answercounttextview);
-        mUpvoteButtom = view.findViewById(R.id.questionsummary_item_upvoteimageview);
+        mUpvoteButton = view.findViewById(R.id.questionsummary_item_upvoteimageview);
         mDownVoteButton = view.findViewById(R.id.questionsummary_item_downvoteimageview);
         mAddAnswerTextView = view.findViewById(R.id.questionsummary_item_addanswertextview);
 
@@ -86,8 +95,8 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
         mAddAnswerTextView.setOnClickListener(redirectToFullQuestion);
     }
 
-    public void setOnClickListenerToUpvoteDownvoteButtons() {
-        mUpvoteButtom.setOnClickListener(new View.OnClickListener() {
+    public void setOnClickListenerToUpvoteButton() {
+        mUpvoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseHelper.getReferenceToParticularQuestion(mQID)
@@ -95,7 +104,32 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
                     @Override
                     public Transaction.Result doTransaction(MutableData mutableData) {
                         QuestionSummary questionSummary = mutableData.getValue(QuestionSummary.class);
-                        questionSummary.setUpvoteCount(questionSummary.getUpvoteCount() + 1);
+                        if (questionSummary == null) {
+                            return Transaction.success(mutableData);
+                        }
+                        String currUID = FirebaseAuth.getInstance().getUid();
+                        HashMap<String, Boolean> upvoters = questionSummary.getUpvoters();
+                        HashMap<String, Boolean> downvoters = questionSummary.getDownvoters();
+                        boolean hasUpvotedAlready = upvoters != null && upvoters.containsKey(currUID);
+                        boolean hasDownvotedAlready = downvoters != null && downvoters.containsKey(currUID);
+                        if(hasUpvotedAlready) {
+                            setUpvoteButtonInUnclickedState();
+                            upvoters.remove(currUID);
+                            questionSummary.setUpvoteCount(questionSummary.getUpvoteCount() - 1);
+                        } else {
+                            if(hasDownvotedAlready) {
+                                setDownvoteButtonInUnclickedState();
+                                downvoters.remove(currUID);
+                                questionSummary.setDownvoteCount(questionSummary.getDownvoteCount() - 1);
+                            }
+                            setUpvoteButtonInClickedState();
+                            if(upvoters == null) {
+                                upvoters = new HashMap<>();
+                                questionSummary.setUpvoters(upvoters);
+                            }
+                            upvoters.put(currUID, true);
+                            questionSummary.setUpvoteCount(questionSummary.getUpvoteCount() + 1);
+                        }
                         // Set value and report transaction success
                         mutableData.setValue(questionSummary);
                         return Transaction.success(mutableData);
@@ -106,6 +140,9 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
                 });
             }
         });
+    }
+
+    public void setOnclickListenerToDownvoteButton() {
         mDownVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,8 +151,32 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
                             @Override
                             public Transaction.Result doTransaction(MutableData mutableData) {
                                 QuestionSummary questionSummary = mutableData.getValue(QuestionSummary.class);
-                                questionSummary.setDownvoteCount(questionSummary.getDownvoteCount() + 1);
-                                // Set value and report transaction success
+                                if (questionSummary == null) {
+                                    return Transaction.success(mutableData);
+                                }
+                                String currUID = FirebaseAuth.getInstance().getUid();
+                                HashMap<String, Boolean> upvoters = questionSummary.getUpvoters();
+                                HashMap<String, Boolean> downvoters = questionSummary.getDownvoters();
+                                boolean hasUpvotedAlready = upvoters != null && upvoters.containsKey(currUID);
+                                boolean hasDownvotedAlready = downvoters != null && downvoters.containsKey(currUID);
+                                if(hasDownvotedAlready) {
+                                    setDownvoteButtonInUnclickedState();
+                                    downvoters.remove(currUID);
+                                    questionSummary.setDownvoteCount(questionSummary.getDownvoteCount() - 1);
+                                } else {
+                                    if(hasUpvotedAlready) {
+                                        setUpvoteButtonInUnclickedState();
+                                        upvoters.remove(currUID);
+                                        questionSummary.setUpvoteCount(questionSummary.getUpvoteCount() - 1);
+                                    }
+                                    setDownvoteButtonInClickedState();
+                                    if(downvoters == null) {
+                                        downvoters = new HashMap<>();
+                                        questionSummary.setDownvoters(downvoters);
+                                    }
+                                    downvoters.put(currUID, true);
+                                    questionSummary.setDownvoteCount(questionSummary.getDownvoteCount() + 1);
+                                }
                                 mutableData.setValue(questionSummary);
                                 return Transaction.success(mutableData);
                             }
@@ -125,6 +186,26 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
                         });
             }
         });
+    }
+
+    public void setUpvoteButtonInClickedState() {
+        mUpvoteButton.setBackgroundResource(R.drawable.background_questionsummaryitem_upvotedstate);
+        mUpvoteButton.setImageResource(R.drawable.ic_up_yellow_24dp);
+    }
+
+    public void setUpvoteButtonInUnclickedState() {
+        mUpvoteButton.setBackgroundColor(Color.TRANSPARENT);
+        mUpvoteButton.setImageResource(R.drawable.ic_up_24dp);
+    }
+
+    public void setDownvoteButtonInClickedState() {
+        mDownVoteButton.setBackgroundResource(R.drawable.background_questionsummaryitem_upvotedstate);
+        mDownVoteButton.setImageResource(R.drawable.ic_down_yellow_24dp);
+    }
+
+    public void setDownvoteButtonInUnclickedState() {
+        mDownVoteButton.setBackgroundColor(Color.TRANSPARENT);
+        mDownVoteButton.setImageResource(R.drawable.ic_down_24dp);
     }
 
     public ShimmerFrameLayout getmPlaceholderForShimmerContainer() {
@@ -149,6 +230,14 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
 
     public LinearLayout getmFullQuestionSummaryContainer() {
         return mFullQuestionSummaryContainer;
+    }
+
+    public ImageView getmUpvoteButton() {
+        return mUpvoteButton;
+    }
+
+    public ImageView getmDownVoteButton() {
+        return mDownVoteButton;
     }
 
     public ImageView getmProfilePictureImageView() {

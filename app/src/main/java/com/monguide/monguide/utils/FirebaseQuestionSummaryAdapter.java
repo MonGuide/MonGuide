@@ -18,6 +18,7 @@ import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
 import com.firebase.ui.database.paging.LoadingState;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.monguide.monguide.R;
 import com.monguide.monguide.home.feed.FeedFragment;
 import com.monguide.monguide.models.question.QuestionSummary;
+
+import java.util.HashMap;
 
 public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapter<QuestionSummary, QuestionSummaryHolder> {
 
@@ -39,15 +42,49 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
 
     @Override
     protected void onBindViewHolder(@NonNull final QuestionSummaryHolder holder, int position, @NonNull QuestionSummary questionSummary) {
-        // Activate shimmer
+        String qid = getRef(position).getKey();
+        // will be deactivated when the profile picture finishes loading
+        activateShimmer(holder);
+
+        setUserDetailsInHolder(holder, questionSummary);
+        setQuestionDetailsInHolder(holder, questionSummary);
+        setQuestionStatsInHolder(holder, questionSummary, qid);
+        setListenersInHolder(holder, questionSummary, qid);
+        setUpvoteDownvoteButtonState(holder, questionSummary);
+    }
+
+    private void setUpvoteDownvoteButtonState(QuestionSummaryHolder holder, QuestionSummary questionSummary) {
+        if(questionSummary.getUpvoters() == null ||
+                !questionSummary.getUpvoters().containsKey(FirebaseAuth.getInstance().getUid())) {
+            // set upvote button in unclicked state
+            holder.setUpvoteButtonInUnclickedState();
+        } else {
+            // set upvote button in clicked state
+            holder.setUpvoteButtonInClickedState();
+        }
+        if(questionSummary.getDownvoters() == null ||
+                !questionSummary.getDownvoters().containsKey(FirebaseAuth.getInstance().getUid())) {
+            // set downvote button in unclicked state
+            holder.setDownvoteButtonInUnclickedState();
+        } else {
+            // set downvote button in clicked state
+            holder.setDownvoteButtonInClickedState();
+        }
+    }
+
+    private void activateShimmer(QuestionSummaryHolder holder) {
         holder.getmPlaceholderForShimmerContainer().setVisibility(View.VISIBLE);
         holder.getmFullQuestionSummaryContainer().setVisibility(View.GONE);
         holder.getmPlaceholderForShimmerContainer().startShimmer();
+    }
 
-        String qid = getRef(position).getKey();
-        holder.setmUID(questionSummary.getUid());
-        holder.setmQID(qid);
+    private void deactivateShimmer(QuestionSummaryHolder holder) {
+        holder.getmFullQuestionSummaryContainer().setVisibility(View.VISIBLE);
+        holder.getmPlaceholderForShimmerContainer().setVisibility(View.GONE);
+        holder.getmPlaceholderForShimmerContainer().stopShimmer();
+    }
 
+    private void setUserDetailsInHolder(final QuestionSummaryHolder holder, QuestionSummary questionSummary) {
         // set profile picture
         // this will take time getting from server
         StorageHelper.getReferenceToProfilePictureOfParticularUser(questionSummary.getUid())
@@ -61,15 +98,14 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
                             @Override
                             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                                 holder.getmProfilePictureImageView().setImageDrawable(resource);
-                                holder.getmFullQuestionSummaryContainer().setVisibility(View.VISIBLE);
-                                holder.getmPlaceholderForShimmerContainer().setVisibility(View.GONE);
-                                holder.getmPlaceholderForShimmerContainer().stopShimmer();
+                                deactivateShimmer(holder);
                             }
                             @Override
                             public void onLoadCleared(@Nullable Drawable placeholder) {}
                         });
             }
         });
+        // set name of user that created question
         DatabaseHelper.getReferenceToParticularUser(questionSummary.getUid())
                 .child("name")
                 .addValueEventListener(new ValueEventListener() {
@@ -81,10 +117,26 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
-        // set rest of the details
+    }
+
+    private void setQuestionDetailsInHolder(QuestionSummaryHolder holder, QuestionSummary questionSummary) {
         holder.getmTimeStampTextView().setText(questionSummary.getTimestamp());
         holder.getmTitleTextView().setText(questionSummary.getTitle());
         holder.getmBodyTextView().setText(questionSummary.getBody());
+    }
+
+    private void setListenersInHolder(QuestionSummaryHolder holder, QuestionSummary questionSummary, String qid) {
+        // these will be used by listeners in holder class
+        holder.setmUID(questionSummary.getUid());
+        holder.setmQID(qid);
+        // set listeners
+        holder.setOnClickListenerToOpenUserProfileInFocus();
+        holder.setOnClickListenerToOpenFullQuestion();
+        holder.setOnClickListenerToUpvoteButton();
+        holder.setOnclickListenerToDownvoteButton();
+    }
+
+    private void setQuestionStatsInHolder(@NonNull final QuestionSummaryHolder holder, @NonNull QuestionSummary questionSummary, String qid) {
         // load them statically and then add listeners
         // for dynamic updation as well
         holder.getmUpvoteCountTextView().setText(String.valueOf(questionSummary.getUpvoteCount()));
@@ -95,7 +147,8 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        holder.getmUpvoteCountTextView()
+                        if(dataSnapshot.getValue(Integer.class) != null)
+                            holder.getmUpvoteCountTextView()
                                 .setText(String.valueOf(dataSnapshot.getValue(Integer.class)));
                     }
                     @Override
@@ -106,7 +159,8 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        holder.getmDownVoteCountTextView()
+                        if(dataSnapshot.getValue(Integer.class) != null)
+                            holder.getmDownVoteCountTextView()
                                 .setText(String.valueOf(dataSnapshot.getValue(Integer.class)));
                     }
                     @Override
@@ -117,39 +171,28 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        holder.getmAnswerCountTextView()
-                                .setText(String.valueOf(dataSnapshot.getValue(Integer.class)));
+                        if(dataSnapshot.getValue(Integer.class) != null)
+                            holder.getmAnswerCountTextView()
+                                    .setText(String.valueOf(dataSnapshot.getValue(Integer.class)));
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
-        holder.setOnClickListenerToOpenUserProfileInFocus();
-        holder.setOnClickListenerToOpenFullQuestion();
-        holder.setOnClickListenerToUpvoteDownvoteButtons();
     }
+
 
     @Override
     protected void onLoadingStateChanged(@NonNull LoadingState state) {
-
         switch (state) {
             case LOADING_INITIAL:
-                // The initial load has begun
-                // ...
                 mFeedFragment.startRefreshingAnimation();
                 break;
             case LOADING_MORE:
-                // The adapter has started to load an additional page
-                // ...
                 break;
             case LOADED:
-                // The previous load (either initial or additional) completed
-                // ...
                 mFeedFragment.stopRefreshingAnimation();
                 break;
             case ERROR:
-                // The previous load (either initial or additional) failed. Call
-                // the retry() method in order to retry the load operation.
-                // ...
                 retry();
                 break;
         }

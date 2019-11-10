@@ -6,8 +6,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
-@IgnoreExtraProperties
 public class QuestionSummary {
     private String uid;
     private String timestamp;
@@ -16,6 +16,8 @@ public class QuestionSummary {
     private int upvoteCount;
     private int downvoteCount;
     private int answerCount;
+    private HashMap<String, Boolean> upvoters;
+    private HashMap<String, Boolean> downvoters;
 
     public QuestionSummary() {}
 
@@ -28,8 +30,10 @@ public class QuestionSummary {
         this.answerCount = 0;
         // for custom timestamp
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-        simpleDateFormat.applyPattern("h:mm a dd MMM  yyyy");
+        simpleDateFormat.applyPattern("h:mm a, d MMM yyyy");
         this.timestamp = simpleDateFormat.format(Calendar.getInstance().getTime());
+        upvoters = new HashMap<>();
+        downvoters = new HashMap<>();
     }
 
     public String getUid() {
@@ -87,4 +91,21 @@ public class QuestionSummary {
     public void setBody(String body) {
         this.body = body;
     }
+
+    public HashMap<String, Boolean> getUpvoters() {
+        return upvoters;
+    }
+
+    public void setUpvoters(HashMap<String, Boolean> upvoters) {
+        this.upvoters = upvoters;
+    }
+
+    public HashMap<String, Boolean> getDownvoters() {
+        return downvoters;
+    }
+
+    public void setDownvoters(HashMap<String, Boolean> downvoters) {
+        this.downvoters = downvoters;
+    }
+
 }

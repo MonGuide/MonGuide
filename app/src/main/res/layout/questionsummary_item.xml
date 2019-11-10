@@ -40,7 +40,7 @@
                 android:layout_height="56dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/temp_harrypotter"
-                android:background="@drawable/background_smallprofilepicture"/>
+                android:background="@drawable/background_whiteroundcorners"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
-                android:background="@android:color/darker_gray"/>
+                android:background="@color/colorLighestGrey"/>
 
             <!-- for count of upvotes, downvotes, answers -->
             <RelativeLayout
@@ -198,7 +198,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@color/colorLighestGrey"/>
 
         <!-- buttons and add an answer -->
         <LinearLayout
