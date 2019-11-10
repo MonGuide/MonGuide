@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/background_questionsummaryitem"
+    android:padding="8dp"
+    android:background="@drawable/background_whiteroundcorners"
     android:elevation="8dp">
 
     <!-- Shimmer -->
@@ -55,7 +55,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
                     android:textStyle="bold"
-                    android:text="Harry Potter"/>
+                    android:text="Harry Potter"
+                    android:textColor="@android:color/black"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/questionsummary_item_timestamptextview"
@@ -82,7 +83,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textSize="16dp"
-                android:text="This is my life story"/>
+                android:text="This is my life story"
+                android:textColor="@android:color/black"/>
             <!-- end -->
 
             <!-- body -->
@@ -93,6 +95,13 @@
                 android:layout_marginTop="8dp"
                 android:textSize="12dp"
                 android:text="Harry James Potter is the titular protagonist of J. K. Rowling's Harry Potter series. The majority of the books' plot covers seven years in the life of the orphan Harry, who, on his eleventh birthday, learns he is a wizard."/>
+
+            <!-- seperator -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/darker_gray"/>
 
             <!-- for count of upvotes, downvotes, answers -->
             <RelativeLayout
@@ -117,7 +126,8 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textSize="12dp"
-                            android:text="255"/>
+                            android:text="255"
+                            android:textColor="@android:color/black"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -140,7 +150,8 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textSize="12dp"
-                            android:text="7"/>
+                            android:text="7"
+                            android:textColor="@android:color/black"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -166,7 +177,8 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="12dp"
-                        android:text="13"/>
+                        android:text="13"
+                        android:textColor="@android:color/black"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
@@ -180,6 +192,13 @@
             </RelativeLayout>
 
         </LinearLayout>
+
+        <!-- seperator -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"/>
 
         <!-- buttons and add an answer -->
         <LinearLayout
@@ -206,14 +225,13 @@
                     android:gravity="center"
                     android:baselineAligned="false">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/questionsummary_item_upvotebutton"
-                        android:layout_width="wrap_content"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/questionsummary_item_upvoteimageview"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_up_24dp"
-                        android:background="@drawable/shape_round"/>
+                        android:src="@drawable/ic_up_yellow_24dp"
+                        android:background="@drawable/background_questionsummaryitem_upvotedstate"/>
 
                 </LinearLayout>
 
@@ -226,14 +244,12 @@
                     android:gravity="center"
                     android:baselineAligned="false">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/questionsummary_item_downvotebutton"
-                        android:layout_width="wrap_content"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/questionsummary_item_downvoteimageview"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_down_24dp"
-                        android:background="@drawable/shape_round"/>
+                        android:src="@drawable/ic_down_24dp"/>
 
                 </LinearLayout>
 
@@ -250,11 +266,13 @@
 
                 <TextView
                     android:id="@+id/questionsummary_item_addanswertextview"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Add an answer"
                     android:textStyle="bold"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"/>
 
             </LinearLayout>
 

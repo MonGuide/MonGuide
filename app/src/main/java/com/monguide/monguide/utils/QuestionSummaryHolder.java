@@ -1,7 +1,6 @@
 package com.monguide.monguide.utils;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,7 +9,12 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.monguide.monguide.R;
+import com.monguide.monguide.models.question.QuestionSummary;
 
 
 public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
@@ -30,8 +34,8 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
     private TextView mUpvoteCountTextView;
     private TextView mDownVoteCountTextView;
     private TextView mAnswerCountTextView;
-    private ImageButton mUpvoteButtom;
-    private ImageButton mDownVoteButton;
+    private ImageView mUpvoteButtom;
+    private ImageView mDownVoteButton;
     private TextView mAddAnswerTextView;
 
     public QuestionSummaryHolder(View view) {
@@ -45,8 +49,8 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
         mUpvoteCountTextView = view.findViewById(R.id.questionsummary_item_upvotecounttextview);
         mDownVoteCountTextView = view.findViewById(R.id.questionsummary_item_downvotecounttextview);
         mAnswerCountTextView = view.findViewById(R.id.questionsummary_item_answercounttextview);
-        mUpvoteButtom = view.findViewById(R.id.questionsummary_item_upvotebutton);
-        mDownVoteButton = view.findViewById(R.id.questionsummary_item_downvotebutton);
+        mUpvoteButtom = view.findViewById(R.id.questionsummary_item_upvoteimageview);
+        mDownVoteButton = view.findViewById(R.id.questionsummary_item_downvoteimageview);
         mAddAnswerTextView = view.findViewById(R.id.questionsummary_item_addanswertextview);
 
         mPlaceholderForShimmerContainer = view.findViewById(R.id.questionsummary_item_shimmercontainer);
@@ -59,7 +63,7 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
         mProfilePictureImageView.setClipToOutline(true);
     }
 
-    public void setOnClickListenerToOpenUserProfileInFocus(String uid) {
+    public void setOnClickListenerToOpenUserProfileInFocus() {
         View.OnClickListener redirectToUserProfileInFocus
                 = new View.OnClickListener() {
             @Override
@@ -70,7 +74,7 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
         mUserDetailsContainer.setOnClickListener(redirectToUserProfileInFocus);
     }
 
-    public void setOnClickListenerToOpenFullQuestion(String qid) {
+    public void setOnClickListenerToOpenFullQuestion() {
         View.OnClickListener redirectToFullQuestion
                 = new View.OnClickListener() {
             @Override
@@ -82,8 +86,65 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
         mAddAnswerTextView.setOnClickListener(redirectToFullQuestion);
     }
 
+    public void setOnClickListenerToUpvoteDownvoteButtons() {
+        mUpvoteButtom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseHelper.getReferenceToParticularQuestion(mQID)
+                        .runTransaction(new Transaction.Handler() {
+                    @Override
+                    public Transaction.Result doTransaction(MutableData mutableData) {
+                        QuestionSummary questionSummary = mutableData.getValue(QuestionSummary.class);
+                        questionSummary.setUpvoteCount(questionSummary.getUpvoteCount() + 1);
+                        // Set value and report transaction success
+                        mutableData.setValue(questionSummary);
+                        return Transaction.success(mutableData);
+                    }
+
+                    @Override
+                    public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {}
+                });
+            }
+        });
+        mDownVoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseHelper.getReferenceToParticularQuestion(mQID)
+                        .runTransaction(new Transaction.Handler() {
+                            @Override
+                            public Transaction.Result doTransaction(MutableData mutableData) {
+                                QuestionSummary questionSummary = mutableData.getValue(QuestionSummary.class);
+                                questionSummary.setDownvoteCount(questionSummary.getDownvoteCount() + 1);
+                                // Set value and report transaction success
+                                mutableData.setValue(questionSummary);
+                                return Transaction.success(mutableData);
+                            }
+
+                            @Override
+                            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {}
+                        });
+            }
+        });
+    }
+
     public ShimmerFrameLayout getmPlaceholderForShimmerContainer() {
         return mPlaceholderForShimmerContainer;
+    }
+
+    public String getmUID() {
+        return mUID;
+    }
+
+    public void setmUID(String mUID) {
+        this.mUID = mUID;
+    }
+
+    public String getmQID() {
+        return mQID;
+    }
+
+    public void setmQID(String mQID) {
+        this.mQID = mQID;
     }
 
     public LinearLayout getmFullQuestionSummaryContainer() {

@@ -23,14 +23,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.monguide.monguide.R;
+import com.monguide.monguide.home.feed.FeedFragment;
 import com.monguide.monguide.models.question.QuestionSummary;
 
 public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapter<QuestionSummary, QuestionSummaryHolder> {
 
     private View view;
+    // to use swipe referesh
+    private FeedFragment mFeedFragment;
 
-    public FirebaseQuestionSummaryAdapter(@NonNull DatabasePagingOptions<QuestionSummary> options) {
+    public FirebaseQuestionSummaryAdapter(FeedFragment feedFragment, @NonNull DatabasePagingOptions<QuestionSummary> options) {
         super(options);
+        this.mFeedFragment = feedFragment;
     }
 
     @Override
@@ -41,6 +45,8 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
         holder.getmPlaceholderForShimmerContainer().startShimmer();
 
         String qid = getRef(position).getKey();
+        holder.setmUID(questionSummary.getUid());
+        holder.setmQID(qid);
 
         // set profile picture
         // this will take time getting from server
@@ -117,8 +123,9 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
-        holder.setOnClickListenerToOpenUserProfileInFocus(questionSummary.getUid());
-        holder.setOnClickListenerToOpenFullQuestion(qid);
+        holder.setOnClickListenerToOpenUserProfileInFocus();
+        holder.setOnClickListenerToOpenFullQuestion();
+        holder.setOnClickListenerToUpvoteDownvoteButtons();
     }
 
     @Override
@@ -128,16 +135,23 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
             case LOADING_INITIAL:
                 // The initial load has begun
                 // ...
+                mFeedFragment.startRefreshingAnimation();
+                break;
             case LOADING_MORE:
                 // The adapter has started to load an additional page
                 // ...
+                break;
             case LOADED:
                 // The previous load (either initial or additional) completed
                 // ...
+                mFeedFragment.stopRefreshingAnimation();
+                break;
             case ERROR:
                 // The previous load (either initial or additional) failed. Call
                 // the retry() method in order to retry the load operation.
                 // ...
+                retry();
+                break;
         }
     }
 
