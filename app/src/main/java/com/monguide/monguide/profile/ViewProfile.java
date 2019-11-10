@@ -41,6 +41,7 @@ public class ViewProfile extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         Bundle extras = getIntent().getExtras();
         // Close the activity if no UID is given
         if (extras == null) {
@@ -48,7 +49,6 @@ public class ViewProfile extends AppCompatActivity {
             finish();
         }
         mCurrUID = extras.getString(Constants.UID);
-
         setContentView(R.layout.activity_viewprofile);
 
         mProfilePictureImageView = (ImageView) findViewById(R.id.activity_viewprofile_imageview_profilepicture);
@@ -58,9 +58,12 @@ public class ViewProfile extends AppCompatActivity {
         mCourseNameTextView = (TextView) findViewById(R.id.activity_viewprofile_textview_coursename);
         mCollegeNameTextView = (TextView) findViewById(R.id.activity_viewprofile_textview_collegename);
         mGraduationYearTextView = (TextView) findViewById(R.id.activity_viewprofile_textview_graduationyear);
+        mProfilePictureImageView.setClipToOutline(true);
 
         populateUserDetails();
         populateQuestionsAsked();
+
+
     }
 
     private void populateUserDetails() {
