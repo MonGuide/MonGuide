@@ -15,7 +15,10 @@
 
         <activity android:name="com.monguide.monguide.loginandsignup.LoginActivity"
             android:windowSoftInputMode="adjustResize">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name="com.monguide.monguide.loginandsignup.SignUpActivity"
@@ -29,10 +32,6 @@
 
         <activity android:name="com.monguide.monguide.profile.ViewProfile"
             android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name="com.monguide.monguide.question.AddQuestionActivity"

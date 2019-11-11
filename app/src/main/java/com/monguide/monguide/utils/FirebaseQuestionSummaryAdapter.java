@@ -38,6 +38,11 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
     public FirebaseQuestionSummaryAdapter(FeedFragment feedFragment, @NonNull DatabasePagingOptions<QuestionSummary> options) {
         super(options);
         this.mFeedFragment = feedFragment;
+        // so that once element in recyclerview
+        // does not affect other
+        // some methods are also overridden at
+        // the bottom of the class for the same
+        setHasStableIds(true);
     }
 
     @Override
@@ -204,5 +209,17 @@ public class FirebaseQuestionSummaryAdapter extends FirebaseRecyclerPagingAdapte
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.questionsummary_item, parent, false);
         return new QuestionSummaryHolder(view);
+    }
+
+
+    // overriding these two so that one item in recyclerview
+    // does not affect other
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

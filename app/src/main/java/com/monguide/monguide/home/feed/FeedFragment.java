@@ -85,10 +85,4 @@ public class FeedFragment extends Fragment {
         super.onStart();
         mAdapter.startListening();
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mAdapter.stopListening();
-    }
 }
