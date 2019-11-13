@@ -1,4 +1,4 @@
-package com.monguide.monguide.models.question;
+package com.monguide.monguide.models;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.IgnoreExtraProperties;

@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.monguide.monguide.R;
-import com.monguide.monguide.models.question.QuestionSummary;
+import com.monguide.monguide.models.QuestionSummary;
 import com.monguide.monguide.utils.DatabaseHelper;
 
 public class AddQuestionActivity extends AppCompatActivity {
@@ -61,13 +61,15 @@ public class AddQuestionActivity extends AppCompatActivity {
         mSubmitButton.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
 
-        String qid = DatabaseHelper.getReferenceToAllQuestions().push().getKey();
+        final String qid = DatabaseHelper.getReferenceToAllQuestions().push().getKey();
         QuestionSummary questionSummary
                 = new QuestionSummary(
                         FirebaseAuth.getInstance().getCurrentUser().getUid(),
                         mTitleEditText.getText().toString().trim(),
                         mBodyEditText.getText().toString().trim());
 
+        DatabaseHelper.getReferenceToAllQuestionsAskedByUser(FirebaseAuth.getInstance().getUid())
+                .child(qid).setValue(true);
         DatabaseHelper.getReferenceToParticularQuestion(qid)
                 .setValue(questionSummary, new DatabaseReference.CompletionListener() {
                     @Override
@@ -88,6 +90,8 @@ public class AddQuestionActivity extends AppCompatActivity {
                                     getResources().getString(R.string.error),
                                     Toast.LENGTH_LONG)
                                     .show();
+                            DatabaseHelper.getReferenceToAllQuestionsAskedByUser(FirebaseAuth.getInstance().getUid())
+                                    .child(qid).removeValue();
                             mProgressBar.setVisibility(View.GONE);
                             mSubmitButton.setVisibility(View.VISIBLE);
                         }

@@ -27,13 +27,13 @@ import com.monguide.monguide.R;
 import com.monguide.monguide.models.QuestionSummary;
 import com.monguide.monguide.utils.interfaces.Refreshable;
 
-public class FirebaseQuestionSummaryAdapter<T extends Refreshable> extends FirebaseRecyclerPagingAdapter<QuestionSummary, QuestionSummaryHolder> {
+public class FirebaseAskedQuestionSummaryAdapter<T extends Refreshable> extends FirebaseRecyclerPagingAdapter<Boolean, QuestionSummaryHolder> {
 
     private View view;
     private T ref;
     private Context context;
 
-    public FirebaseQuestionSummaryAdapter(Context context, T ref, @NonNull DatabasePagingOptions<QuestionSummary> options) {
+    public FirebaseAskedQuestionSummaryAdapter(Context context, T ref, @NonNull DatabasePagingOptions<Boolean> options) {
         super(options);
         this.ref = ref;
         this.context = context;
@@ -45,16 +45,27 @@ public class FirebaseQuestionSummaryAdapter<T extends Refreshable> extends Fireb
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull final QuestionSummaryHolder holder, int position, @NonNull QuestionSummary questionSummary) {
-        String qid = getRef(position).getKey();
+    protected void onBindViewHolder(@NonNull final QuestionSummaryHolder holder, int position, @NonNull Boolean aux) {
+        final String qid = getRef(position).getKey();
         // will be deactivated when the profile picture finishes loading
         activateShimmer(holder);
-
-        setUserDetailsInHolder(holder, questionSummary);
-        setQuestionDetailsInHolder(holder, questionSummary);
-        setQuestionStatsInHolder(holder, questionSummary, qid);
-        setListenersInHolder(holder, questionSummary, qid);
-        setUpvoteDownvoteButtonState(holder, questionSummary);
+        // fetch question corresponding to qid
+        DatabaseHelper.getReferenceToParticularQuestion(qid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        QuestionSummary questionSummary = dataSnapshot.getValue(QuestionSummary.class);
+                        // fill holder
+                        setUserDetailsInHolder(holder, questionSummary);
+                        setQuestionDetailsInHolder(holder, questionSummary);
+                        setQuestionStatsInHolder(holder, questionSummary, qid);
+                        setListenersInHolder(holder, questionSummary, qid);
+                        setUpvoteDownvoteButtonState(holder, questionSummary);
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
     }
 
     private void setUpvoteDownvoteButtonState(QuestionSummaryHolder holder, QuestionSummary questionSummary) {

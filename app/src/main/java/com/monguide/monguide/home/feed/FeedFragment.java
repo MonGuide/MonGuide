@@ -1,11 +1,9 @@
 package com.monguide.monguide.home.feed;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,11 +16,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.google.firebase.database.Query;
 import com.monguide.monguide.R;
-import com.monguide.monguide.models.question.QuestionSummary;
+import com.monguide.monguide.models.QuestionSummary;
 import com.monguide.monguide.utils.DatabaseHelper;
 import com.monguide.monguide.utils.FirebaseQuestionSummaryAdapter;
+import com.monguide.monguide.utils.interfaces.Refreshable;
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends Fragment implements Refreshable {
     private RecyclerView mRecyclerView;
     private FirebaseQuestionSummaryAdapter mAdapter;
 
@@ -56,7 +55,6 @@ public class FeedFragment extends Fragment {
         linearLayoutForRecyclerView.setReverseLayout(true);
         linearLayoutForRecyclerView.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(linearLayoutForRecyclerView);
-        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemViewCacheSize(50);
         Query baseQuery = DatabaseHelper.getReferenceToAllQuestions();
         PagedList.Config config = new PagedList.Config.Builder()
@@ -68,7 +66,7 @@ public class FeedFragment extends Fragment {
                 .setLifecycleOwner(this)
                 .setQuery(baseQuery, config, QuestionSummary.class)
                 .build();
-        mAdapter = new FirebaseQuestionSummaryAdapter(this, options);
+        mAdapter = new FirebaseQuestionSummaryAdapter(this.getContext(), this, options);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -84,5 +82,12 @@ public class FeedFragment extends Fragment {
     public void onStart() {
         super.onStart();
         mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

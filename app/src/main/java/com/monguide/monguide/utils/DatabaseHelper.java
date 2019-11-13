@@ -27,6 +27,12 @@ public class DatabaseHelper {
         return getReferenceToAllQuestions().child(qid);
     }
 
+    public static DatabaseReference getReferenceToAllQuestionsAskedByUser(String uid) {
+        return getReferenceToRoot().child("questionAsked").child(uid);
+    }
 
+    public static DatabaseReference getReferenceToAnswersOfParticularQuestion(String qid) {
+        return getReferenceToRoot().child("answers").child(qid);
+    }
 
 }

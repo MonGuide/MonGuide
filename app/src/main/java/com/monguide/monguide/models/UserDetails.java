@@ -1,4 +1,4 @@
-package com.monguide.monguide.models.user;
+package com.monguide.monguide.models;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -1,9 +1,8 @@
 package com.monguide.monguide.utils;
 
+import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,7 +16,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.monguide.monguide.R;
-import com.monguide.monguide.models.question.QuestionSummary;
+import com.monguide.monguide.models.QuestionSummary;
+import com.monguide.monguide.profile.ViewProfile;
+import com.monguide.monguide.questionandanswer.FullQuestionActivity;
 
 import java.util.HashMap;
 
@@ -30,6 +31,7 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
 
     private ShimmerFrameLayout mPlaceholderForShimmerContainer;
     private LinearLayout mFullQuestionSummaryContainer;
+
     private LinearLayout mUserDetailsContainer;
     private LinearLayout mTitleBodyContainer;
 
@@ -48,7 +50,7 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
 
     public QuestionSummaryHolder(View view) {
         super(view);
-        view = view;
+        this.view = view;
 
         mProfilePictureImageView = view.findViewById(R.id.questionsummary_item_profilepictureimageview);
         mUserNameTextView = view.findViewById(R.id.questionsummary_item_usernametextview);
@@ -77,7 +79,9 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
                 = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // redirect to user profile using uid
+                Intent intent = new Intent(view.getContext(), ViewProfile.class);
+                intent.putExtra(Constants.UID, mUID);
+                view.getContext().startActivity(intent);
             }
         };
         mUserDetailsContainer.setOnClickListener(redirectToUserProfileInFocus);
@@ -88,7 +92,9 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
                 = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // redirect to full question using qid
+                Intent intent = new Intent(view.getContext(), FullQuestionActivity.class);
+                intent.putExtra(Constants.QID, mQID);
+                view.getContext().startActivity(intent);
             }
         };
         mTitleBodyContainer.setOnClickListener(redirectToFullQuestion);

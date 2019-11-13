@@ -2,55 +2,80 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8111111"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/activity_fullquestion_text_comment">
-        android:color
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/activity_fullquestion_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimaryDark"
+            android:elevation="8dp"
+            app:title="View Question"
+            app:titleTextColor="@color/colorYellow"
+            app:navigationIcon="@drawable/ic_back_24dp">
+        </androidx.appcompat.widget.Toolbar>
+
         <include
             layout="@layout/questionsummary_item">
         </include>
-        <include
-            layout="@layout/answer_item">
-        </include>
 
-        <include
-            layout="@layout/answer_item">
-        </include>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activity_fullquestion_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/activity_fullquestion_text_comment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:padding="4dp"
+        android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
-        android:padding="10dp">
-        <com.google.android.material.textfield.TextInputEditText
+        android:elevation="8dp">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/activity_fullquestion_writeansweredittext"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/activity_fullquestion_btn_send"
-            android:padding="4dp"
-            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_toLeftOf="@+id/activity_fullquestion_submmitanswerbutton"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_marginRight="8dp"
             android:text="Hello"
-            android:minLines="2"
-            android:textSize="16dp"
-            android:textColor="#DBDBDB"
-            android:background="@drawable/background_whiteroundcorners"
-            android:layout_width="match_parent">
-        </com.google.android.material.textfield.TextInputEditText>
+            android:minLines="3"
+            android:textSize="12dp"
+            android:background="@drawable/background_answeritem" />
+
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/activity_fullquestion_btn_send"
+            android:id="@+id/activity_fullquestion_submmitanswerbutton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerInParent="true"
             android:src="@drawable/ic_send_24dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/shape_round">
-        </androidx.appcompat.widget.AppCompatImageButton>
+            android:background="@drawable/background_submitanswerbutton"/>
+
+        <ProgressBar
+            android:id="@+id/activity_fullquestion_progressbar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="8dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/background_submitanswerbutton"
+            android:layout_alignParentRight="true"
+            android:indeterminateTint="@color/colorYellow"
+            android:visibility="gone">
+        </ProgressBar>
+
     </RelativeLayout>
 
 </RelativeLayout>

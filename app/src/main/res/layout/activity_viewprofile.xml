@@ -1,198 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:scrollbars="none"
-    android:layout_above="@id/activity_viewprofile_toolbar">
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/activity_viewprofile_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        app:navigationIcon="@drawable/ic_back_24dp"
+        app:title="View Profile"
+        app:titleTextColor="@color/colorYellow"/>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/activity_viewprofile_swiperefereshlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_viewprofile_toolbar"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimaryDark"
-            app:navigationIcon="@drawable/ic_back_24dp"
-            app:title="Harry Potter"
-            app:titleTextColor="@color/colorWhite"/>
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/background_whiteroundcorners"
-            android:layout_margin="8dp"
-            android:elevation="8dp">
-            <!-- profile picture and name -->
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:padding="8dp">
+                android:layout_height="match_parent"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/activity_viewprofile_imageview_profilepicture"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/temp_harrypotter"
-                    android:scaleType="centerCrop"
-                    android:elevation="8dp"
-                    android:background="@drawable/background_whiteroundcorners"/>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/activity_viewprofile_textview_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Harry Potter"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:textSize="24dp"/>
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/activity_viewprofile_shimmercontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@drawable/background_whiteroundcorners"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:padding="16dp"
+                            android:elevation="8dp">
+                            <!-- profile picture and name -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="8dp">
+                                <View
+                                    android:layout_width="200dp"
+                                    android:layout_height="200dp"
+                                    android:background="@color/colorLightGrey"/>
+                                <View
+                                    android:layout_width="152dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@color/colorLightGrey"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="8dp"
+                                android:paddingBottom="8dp"
+                                android:paddingLeft="16dp">
+                                <View
+                                    android:layout_width="192dp"
+                                    android:layout_height="16dp"
+                                    android:layout_marginTop="4dp"
+                                    android:background="@color/colorLightGrey">
+                                </View>
+                                <View
+                                    android:layout_width="152dp"
+                                    android:layout_height="16dp"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@color/colorLightGrey">
+                                </View>
+                                <View
+                                    android:layout_width="168dp"
+                                    android:layout_height="16dp"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginBottom="3dp"
+                                    android:background="@color/colorLightGrey">
+                                    <!-- 3dp margin because 2 and 4 are not working -->
+                                    <!-- lord forgive me :( -->
+                                </View>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    <LinearLayout
+                        android:id="@+id/activity_viewprofile_fullprofiledetailscontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/background_whiteroundcorners"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:padding="16dp"
+                        android:elevation="8dp"
+                        android:visibility="gone">
+                        <!-- profile picture and name -->
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:padding="8dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/activity_viewprofile_imageview_profilepicture"
+                                android:layout_width="200dp"
+                                android:layout_height="200dp"
+                                android:src="@drawable/temp_harrypotter"
+                                android:scaleType="centerCrop"
+                                android:background="@drawable/background_whiteroundcorners"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/activity_viewprofile_textview_username"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Harry Potter"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/black"
+                                android:textSize="20dp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            android:paddingLeft="16dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_work_24dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/activity_viewprofile_textview_jobprofile"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12dp"
+                                    android:text="Software Developer"
+                                    android:layout_gravity="center"
+                                    android:textColor="@android:color/black"
+                                    android:layout_marginLeft="12dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12dp"
+                                    android:text="at"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/activity_viewprofile_textview_companyname"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:textSize="12dp"
+                                    android:text="Google"
+                                    android:textColor="@android:color/black"
+                                    android:layout_gravity="center"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_school_24dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/activity_viewprofile_textview_coursename"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12dp"
+                                    android:text="MCA"
+                                    android:textColor="@android:color/black"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="12dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12dp"
+                                    android:text="at"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/activity_viewprofile_textview_collegename"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:textSize="12dp"
+                                    android:textColor="@android:color/black"
+                                    android:text="MNNIT, Allahabad"
+                                    android:layout_gravity="center"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_clock_24dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12dp"
+                                    android:text="Graduation year"
+                                    android:textColor="@android:color/black"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="12dp"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/activity_viewprofile_textview_graduationyear"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12dp"
+                                    android:text="2021"
+                                    android:textColor="@android:color/black"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_marginTop="16dp"
+                        android:padding="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Questions Asked"
+                        android:gravity="center_horizontal"
+                        android:textSize="16dp"
+                        android:textColor="@android:color/black"
+                        android:background="@color/colorWhite"
+                        android:elevation="8dp"
+                        android:layout_marginBottom="16dp"/>
+
+                </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activity_viewprofile_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
 
-            <!-- rest of details -->
-            <!-- ############ do correction for content overflow -->
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="8dp"
-                android:layout_margin="8dp"
-                android:padding="8dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_work_24dp"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/activity_viewprofile_textview_jobprofile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="Software Developer"
-                        android:layout_gravity="center"
-                        android:textColor="@android:color/black"
-                        android:layout_marginLeft="12dp"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="at"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="4dp"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/activity_viewprofile_textview_companyname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:textSize="12dp"
-                        android:text="Google"
-                        android:textColor="@android:color/black"
-                        android:layout_gravity="center"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_school_24dp"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/activity_viewprofile_textview_coursename"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="MCA"
-                        android:textColor="@android:color/black"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="12dp"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="at"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="4dp"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/activity_viewprofile_textview_collegename"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:textSize="12dp"
-                        android:textColor="@android:color/black"
-                        android:text="MNNIT, Allahabad"
-                        android:layout_gravity="center"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_clock_24dp"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="Graduation year"
-                        android:textColor="@android:color/black"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="12dp"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/activity_viewprofile_textview_graduationyear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="2021"
-                        android:textColor="@android:color/black"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="4dp"/>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:padding="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Questions Asked"
-            android:gravity="center_horizontal"
-            android:textSize="16dp"
-            android:textColor="@android:color/black"
-            android:background="@color/colorWhite"
-            android:elevation="8dp"/>
-
-
-    </LinearLayout>
-
-</ScrollView>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

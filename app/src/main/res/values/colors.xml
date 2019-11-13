@@ -9,6 +9,7 @@
 
     <color name="colorLightGrey">#D3D3D3</color>
     <color name="colorLighestGrey">#DCDCDC</color>
+    <color name="colorLighestBlue">#F5FCFF</color>
 
     // no use
     <color name="colorDarkGrey">#121212</color>

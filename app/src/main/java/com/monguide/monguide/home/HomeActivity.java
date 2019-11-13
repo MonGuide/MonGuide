@@ -21,6 +21,7 @@ import com.monguide.monguide.R;
 import com.monguide.monguide.home.feed.FeedFragment;
 import com.monguide.monguide.home.notifications.NotificationsFragment;
 import com.monguide.monguide.loginandsignup.LoginActivity;
+import com.monguide.monguide.profile.ViewProfile;
 import com.monguide.monguide.question.AddQuestionActivity;
 
 public class HomeActivity extends AppCompatActivity {
@@ -59,9 +60,8 @@ public class HomeActivity extends AppCompatActivity {
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        // OPEN USER PROFILE HERE
-                        FirebaseAuth.getInstance().signOut();
-                        startLoginActivity();
+                        // open user profile
+                        startActivity(new Intent(HomeActivity.this, ViewProfile.class));
                         return true;
                     }
                 });
@@ -71,16 +71,6 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startAddQuestionActivity();
-            }
-        });
-
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-
-                FirebaseAuth.getInstance().signOut();
-                startLoginActivity();
-                return false;
             }
         });
         mFeedFragment = new FeedFragment();
@@ -102,13 +92,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void startAddQuestionActivity() {
         startActivity(new Intent(HomeActivity.this, AddQuestionActivity.class));
-    }
-
-    private void startLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
     }
 
     private void loadFragment(Fragment fragment) {

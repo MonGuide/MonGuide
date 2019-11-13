@@ -22,10 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.UploadTask;
 import com.monguide.monguide.R;
 import com.monguide.monguide.home.HomeActivity;
-import com.monguide.monguide.models.user.*;
+import com.monguide.monguide.models.UserDetails;
 import com.monguide.monguide.utils.DatabaseHelper;
 import com.monguide.monguide.utils.StorageHelper;
-import java.io.File;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -85,6 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
         // for rounded corners after image selection
         // this is not recognized as an xml attribute
         mProfileImageView.setClipToOutline(true);
+
         mProfileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
