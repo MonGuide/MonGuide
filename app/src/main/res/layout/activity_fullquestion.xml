@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_above="@id/activity_fullquestion_relativelayout">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/activity_fullquestion_toolbar"
@@ -32,9 +33,13 @@
             android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
 
+        <include
+            layout="@layout/item_endofcontent">
+        </include>
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/activity_fullquestion_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:padding="4dp"
