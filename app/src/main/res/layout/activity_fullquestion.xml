@@ -23,7 +23,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <include
-            layout="@layout/questionsummary_item">
+            layout="@layout/item_questionsummary">
         </include>
 
         <androidx.recyclerview.widget.RecyclerView
