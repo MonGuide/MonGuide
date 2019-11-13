@@ -36,7 +36,7 @@
                     android:orientation="vertical">
 
                     <View
-                        android:layout_width="wrap_content"
+                        android:layout_width="112dp"
                         android:layout_height="20dp"
                         android:background="@color/colorLightGrey"/>
 
@@ -45,8 +45,16 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginLeft="40dp"/>
+                android:layout_height="16dp"
+                android:layout_marginLeft="40dp"
+                android:background="@color/colorLightGrey"/>
+
+            <View
+                android:layout_width="304dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="40dp"
+                android:background="@color/colorLightGrey"/>
 
         </LinearLayout>
         <!-- end -->
@@ -54,9 +62,11 @@
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <LinearLayout
+        android:id="@+id/answer_item_fullanswercontainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
         <!-- for profile picture, name and time-->
         <LinearLayout
             android:id="@+id/answer_item_userdetailscontainer"

@@ -41,8 +41,8 @@ import com.monguide.monguide.utils.FirebaseAskedQuestionSummaryAdapter;
 import com.monguide.monguide.utils.StorageHelper;
 import com.monguide.monguide.utils.interfaces.Refreshable;
 
-public class ViewProfile extends AppCompatActivity implements Refreshable {
-    private static final String TAG = "ViewProfile";
+public class ViewProfileActivity extends AppCompatActivity implements Refreshable {
+    private static final String TAG = "ViewProfileActivity";
 
     private String mCurrUID;
 
@@ -63,8 +63,6 @@ public class ViewProfile extends AppCompatActivity implements Refreshable {
 
     private RecyclerView mRecyclerView;
     private FirebaseAskedQuestionSummaryAdapter mAdapter;
-
-    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,16 +107,6 @@ public class ViewProfile extends AppCompatActivity implements Refreshable {
         mFullUserDetailsContainer = findViewById(R.id.activity_viewprofile_fullprofiledetailscontainer);
 
         mRecyclerView = findViewById(R.id.activity_viewprofile_recyclerview);
-
-        mSwipeRefreshLayout = findViewById(R.id.activity_viewprofile_swiperefereshlayout);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorYellow);
-        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimaryDark);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                reloadContent();
-            }
-        });
 
         mProfilePictureImageView.setClipToOutline(true);
 
@@ -212,12 +200,12 @@ public class ViewProfile extends AppCompatActivity implements Refreshable {
 
     @Override
     public void startRefreshingAnimation() {
-        mSwipeRefreshLayout.setRefreshing(true);
+
     }
 
     @Override
     public void stopRefreshingAnimation() {
-        mSwipeRefreshLayout.setRefreshing(false);
+
     }
 
     @Override

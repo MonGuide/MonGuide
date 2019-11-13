@@ -22,10 +22,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.monguide.monguide.R;
 import com.monguide.monguide.models.QuestionSummary;
 import com.monguide.monguide.utils.interfaces.Refreshable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirebaseQuestionSummaryAdapter<T extends Refreshable> extends FirebaseRecyclerPagingAdapter<QuestionSummary, QuestionSummaryHolder> {
 
@@ -54,10 +58,10 @@ public class FirebaseQuestionSummaryAdapter<T extends Refreshable> extends Fireb
         setQuestionDetailsInHolder(holder, questionSummary);
         setQuestionStatsInHolder(holder, questionSummary, qid);
         setListenersInHolder(holder, questionSummary, qid);
-        setUpvoteDownvoteButtonState(holder, questionSummary);
+        setUpvoteDownvoteButtonState(holder, questionSummary, qid);
     }
 
-    private void setUpvoteDownvoteButtonState(QuestionSummaryHolder holder, QuestionSummary questionSummary) {
+    private void setUpvoteDownvoteButtonState(final QuestionSummaryHolder holder, QuestionSummary questionSummary, String qid) {
         if(questionSummary.getUpvoters() == null ||
                 !questionSummary.getUpvoters().containsKey(FirebaseAuth.getInstance().getUid())) {
             // set upvote button in unclicked state
@@ -74,6 +78,43 @@ public class FirebaseQuestionSummaryAdapter<T extends Refreshable> extends Fireb
             // set downvote button in clicked state
             holder.setDownvoteButtonInClickedState();
         }
+        // setting them with listeners
+        DatabaseHelper.getReferenceToParticularQuestion(qid)
+                .child("upvoters")
+                .child(FirebaseAuth.getInstance().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Object o = dataSnapshot.getValue();
+                        if(o == null) {
+                            holder.setUpvoteButtonInUnclickedState();
+                        } else {
+                            holder.setUpvoteButtonInClickedState();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
+
+        DatabaseHelper.getReferenceToParticularQuestion(qid)
+                .child("downvoters")
+                .child(FirebaseAuth.getInstance().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Object o = dataSnapshot.getValue();
+                        if(o == null) {
+                            holder.setDownvoteButtonInUnclickedState();
+                        } else {
+                            holder.setDownvoteButtonInClickedState();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
+
     }
 
     private void activateShimmer(QuestionSummaryHolder holder) {

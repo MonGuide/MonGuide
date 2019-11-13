@@ -2,7 +2,6 @@ package com.monguide.monguide.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -12,16 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.monguide.monguide.R;
 import com.monguide.monguide.home.feed.FeedFragment;
 import com.monguide.monguide.home.notifications.NotificationsFragment;
-import com.monguide.monguide.loginandsignup.LoginActivity;
-import com.monguide.monguide.profile.ViewProfile;
+import com.monguide.monguide.profile.ViewProfileActivity;
 import com.monguide.monguide.question.AddQuestionActivity;
 
 public class HomeActivity extends AppCompatActivity {
@@ -61,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         // open user profile
-                        startActivity(new Intent(HomeActivity.this, ViewProfile.class));
+                        startActivity(new Intent(HomeActivity.this, ViewProfileActivity.class));
                         return true;
                     }
                 });

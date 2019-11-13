@@ -17,7 +17,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.monguide.monguide.R;
 import com.monguide.monguide.models.QuestionSummary;
-import com.monguide.monguide.profile.ViewProfile;
+import com.monguide.monguide.profile.ViewProfileActivity;
 import com.monguide.monguide.questionandanswer.FullQuestionActivity;
 
 import java.util.HashMap;
@@ -79,7 +79,7 @@ public class QuestionSummaryHolder extends RecyclerView.ViewHolder {
                 = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), ViewProfile.class);
+                Intent intent = new Intent(view.getContext(), ViewProfileActivity.class);
                 intent.putExtra(Constants.UID, mUID);
                 view.getContext().startActivity(intent);
             }

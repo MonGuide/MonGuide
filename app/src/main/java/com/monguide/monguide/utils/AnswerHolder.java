@@ -1,7 +1,6 @@
 package com.monguide.monguide.utils;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,17 +9,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 import com.monguide.monguide.R;
-import com.monguide.monguide.models.QuestionSummary;
-import com.monguide.monguide.profile.ViewProfile;
-import com.monguide.monguide.questionandanswer.FullQuestionActivity;
-
-import java.util.HashMap;
+import com.monguide.monguide.profile.ViewProfileActivity;
 
 
 public class AnswerHolder extends RecyclerView.ViewHolder {
@@ -45,14 +35,15 @@ public class AnswerHolder extends RecyclerView.ViewHolder {
         super(view);
         this.view = view;
 
-        mProfilePictureImageView = view.findViewById(R.id.questionsummary_item_profilepictureimageview);
-        mUserNameTextView = view.findViewById(R.id.questionsummary_item_usernametextview);
-        mTimeStampTextView = view.findViewById(R.id.questionsummary_item_timestamptextview);
-        mBodyTextView = view.findViewById(R.id.questionsummary_item_bodytextview);
+        mProfilePictureImageView = view.findViewById(R.id.answer_item_profilepictureimageview);
+        mUserNameTextView = view.findViewById(R.id.answer_item_usernametextview);
+        mTimeStampTextView = view.findViewById(R.id.answer_item_timestamptextview);
+        mBodyTextView = view.findViewById(R.id.answer_item_bodytextview);
 
-        mPlaceholderForShimmerContainer = view.findViewById(R.id.questionsummary_item_shimmercontainer);
+        mUserDetailsContainer = view.findViewById(R.id.answer_item_userdetailscontainer);
 
-        mUserDetailsContainer = view.findViewById(R.id.questionsummary_item_userdetailscontainer);
+        mPlaceholderForShimmerContainer = view.findViewById(R.id.answer_item_shimmercontainer);
+        mFullAnswerContainer = view.findViewById(R.id.answer_item_fullanswercontainer);
 
         // for rounded corners of profile picture
         mProfilePictureImageView.setClipToOutline(true);
@@ -63,7 +54,7 @@ public class AnswerHolder extends RecyclerView.ViewHolder {
                 = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), ViewProfile.class);
+                Intent intent = new Intent(view.getContext(), ViewProfileActivity.class);
                 intent.putExtra(Constants.UID, mUID);
                 view.getContext().startActivity(intent);
             }
@@ -105,5 +96,9 @@ public class AnswerHolder extends RecyclerView.ViewHolder {
 
     public TextView getmBodyTextView() {
         return mBodyTextView;
+    }
+
+    public LinearLayout getmFullAnswerContainer() {
+        return mFullAnswerContainer;
     }
 }

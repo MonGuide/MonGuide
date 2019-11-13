@@ -30,12 +30,17 @@
             android:launchMode="singleTask">
         </activity>
 
-        <activity android:name="com.monguide.monguide.profile.ViewProfile"
+        <activity android:name="com.monguide.monguide.profile.ViewProfileActivity"
             android:launchMode="singleTop">
         </activity>
 
         <activity android:name="com.monguide.monguide.question.AddQuestionActivity"
             android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTop">
+        </activity>
+
+        <activity android:name="com.monguide.monguide.questionandanswer.FullQuestionActivity"
+            android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTop">
         </activity>
 
