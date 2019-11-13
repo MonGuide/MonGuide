@@ -218,7 +218,7 @@ public class FirebaseAskedQuestionSummaryAdapter<T extends Refreshable> extends 
     @Override
     public QuestionSummaryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.questionsummary_item, parent, false);
+                .inflate(R.layout.item_questionsummary, parent, false);
         return new QuestionSummaryHolder(view);
     }
 

@@ -269,6 +269,10 @@
                     android:elevation="8dp"
                     android:layout_marginBottom="16dp"/>
 
+                <include
+                    layout="@layout/item_endofcontent">
+                </include>
+
             </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

@@ -14,5 +14,10 @@
             android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
 
+        <include
+            layout="@layout/item_endofcontent">
+        </include>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </RelativeLayout>
