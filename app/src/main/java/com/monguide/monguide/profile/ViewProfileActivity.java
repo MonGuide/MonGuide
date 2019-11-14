@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,6 +65,8 @@ public class ViewProfileActivity extends AppCompatActivity implements Refreshabl
     private RecyclerView mRecyclerView;
     private FirebaseAskedQuestionSummaryAdapter mAdapter;
 
+    private LinearLayout mEndOfContent;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +110,8 @@ public class ViewProfileActivity extends AppCompatActivity implements Refreshabl
         mFullUserDetailsContainer = findViewById(R.id.activity_viewprofile_fullprofiledetailscontainer);
 
         mRecyclerView = findViewById(R.id.activity_viewprofile_recyclerview);
+
+        mEndOfContent = findViewById(R.id.container_endofcontent);
 
         mProfilePictureImageView.setClipToOutline(true);
 
@@ -182,7 +187,7 @@ public class ViewProfileActivity extends AppCompatActivity implements Refreshabl
                 .setLifecycleOwner(this)
                 .setQuery(baseQuery, config, Boolean.class)
                 .build();
-        mAdapter = new FirebaseAskedQuestionSummaryAdapter(getApplicationContext(), this, options);
+        mAdapter = new FirebaseAskedQuestionSummaryAdapter(this, getApplicationContext(), this, options);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -219,5 +224,9 @@ public class ViewProfileActivity extends AppCompatActivity implements Refreshabl
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    public LinearLayout getmEndOfContent() {
+        return mEndOfContent;
     }
 }

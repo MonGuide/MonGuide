@@ -40,7 +40,7 @@ public class FirebaseQuestionSummaryAdapter<T extends Refreshable> extends Fireb
     public FirebaseQuestionSummaryAdapter(Context context, T ref, @NonNull DatabasePagingOptions<QuestionSummary> options) {
         super(options);
         this.ref = ref;
-        this.context = context;
+        this.context = context.getApplicationContext();
         // so that once element in recyclerview
         // does not affect other
         // some methods are also overridden at
@@ -251,7 +251,6 @@ public class FirebaseQuestionSummaryAdapter<T extends Refreshable> extends Fireb
                 .inflate(R.layout.item_questionsummary, parent, false);
         return new QuestionSummaryHolder(view);
     }
-
 
     // overriding these two so that one item in recyclerview
     // does not affect other

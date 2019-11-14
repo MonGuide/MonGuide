@@ -2,6 +2,7 @@ package com.monguide.monguide.questionandanswer;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -27,8 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.monguide.monguide.R;
 import com.monguide.monguide.models.Answer;
+import com.monguide.monguide.models.Notification;
 import com.monguide.monguide.models.QuestionSummary;
 import com.monguide.monguide.utils.Constants;
 import com.monguide.monguide.utils.DatabaseHelper;
@@ -86,15 +89,9 @@ public class FullQuestionActivity extends AppCompatActivity {
                 }
             }
         });
-
-        populateQuestion();
-
         setupRecyclerViewWithAdapter();
     }
 
-    private void populateQuestion() {
-
-    }
 
     private void addAnswerToDatabase(String answerBody){
         mSubmitAnswerButton.setVisibility(View.GONE);
@@ -108,6 +105,7 @@ public class FullQuestionActivity extends AppCompatActivity {
                         if(databaseError == null) {
                             // answer added successfully
                             // clear edittext and increment answer count
+                            // and send notifications
                             mWriteAnswerEditText.setText("");
                             DatabaseHelper.getReferenceToParticularQuestion(mCurrQID)
                                     .runTransaction(new Transaction.Handler() {
@@ -118,6 +116,16 @@ public class FullQuestionActivity extends AppCompatActivity {
                                                 return Transaction.success(mutableData);
                                             }
                                             questionSummary.setAnswerCount(questionSummary.getAnswerCount() + 1);
+                                            // sending notification as well
+                                            if(questionSummary.getUid() != FirebaseAuth.getInstance().getUid()) {
+                                                Notification notification = new Notification(
+                                                        FirebaseAuth.getInstance().getUid(),
+                                                        mCurrQID
+                                                );
+                                                DatabaseHelper.getReferenceToNotificationsOfParticularUser(questionSummary.getUid())
+                                                        .push()
+                                                        .setValue(notification);
+                                            }
                                             // Set value and report transaction success
                                             mutableData.setValue(questionSummary);
                                             return Transaction.success(mutableData);

@@ -269,17 +269,22 @@
                     android:elevation="8dp"
                     android:layout_marginBottom="16dp"/>
 
-                <include
-                    layout="@layout/item_endofcontent">
-                </include>
-
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include
+                    layout="@layout/item_endofcontent"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activity_viewprofile_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 </androidx.recyclerview.widget.RecyclerView>
+
+            </RelativeLayout>
 
         </LinearLayout>
 

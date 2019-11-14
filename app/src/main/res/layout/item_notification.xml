@@ -1,44 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/notification_item_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:layout_margin="8dp"
+    android:elevation="8dp"
+    android:background="@drawable/background_whiteroundcorners">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/notification_item_shimmercontainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical">
+
+            <View
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@color/colorLightGrey">
+            </View>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/colorLightGrey">
+            </View>
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <LinearLayout
+        android:id="@+id/notification_item_fullnotificationcontainer"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:layout_margin="8dp"
-        android:padding="8dp"
-        android:background="@drawable/background_addquestion_edittext"
-        android:elevation="8dp">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:layout_gravity="center"
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/notification_item_profileimage"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:outlineProvider="bounds"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
             android:src="@drawable/temp_harrypotter"
-            android:layout_centerVertical="true">
-        </ImageView>
+            android:background="@drawable/background_whiteroundcorners">
+        </androidx.appcompat.widget.AppCompatImageView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_marginLeft="8dp">
+            android:gravity="center_vertical"
+            android:layout_marginLeft="12dp">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:gravity="left|center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/notification_item_commenttextview"
-                android:textColor="#000000"
-                android:text="Harry Potter upvoted your answer to:  What evidence do we have for the existence of black holes?"
-                android:lines="4"
-                android:padding="8dp">
+                android:id="@+id/notification_item_usernametextview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Harry Potter"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical">
             </androidx.appcompat.widget.AppCompatTextView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:text="answered your"
+                android:textSize="12dp"
+                android:gravity="center_vertical">
+            </androidx.appcompat.widget.AppCompatTextView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/notification_item_questiontextview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:text="Question..."
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical">
+            </androidx.appcompat.widget.AppCompatTextView>
+
         </LinearLayout>
     </LinearLayout>
 

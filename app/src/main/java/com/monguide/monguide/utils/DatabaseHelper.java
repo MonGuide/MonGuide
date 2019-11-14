@@ -35,4 +35,12 @@ public class DatabaseHelper {
         return getReferenceToRoot().child("answers").child(qid);
     }
 
+    public static DatabaseReference getReferenceToAllNotifications() {
+        return getReferenceToRoot().child("notifications");
+    }
+
+    public static DatabaseReference getReferenceToNotificationsOfParticularUser(String uid) {
+        return getReferenceToAllNotifications().child(uid);
+    }
+
 }

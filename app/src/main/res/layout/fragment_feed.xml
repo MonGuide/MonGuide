@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/fragment_feed_swiperefereshlayout"
         android:layout_width="match_parent"
@@ -11,13 +12,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_feed_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
         </androidx.recyclerview.widget.RecyclerView>
 
-        <include
-            layout="@layout/item_endofcontent">
-        </include>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>

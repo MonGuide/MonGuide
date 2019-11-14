@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.monguide.monguide.R;
 import com.monguide.monguide.models.QuestionSummary;
+import com.monguide.monguide.profile.ViewProfileActivity;
 import com.monguide.monguide.utils.interfaces.Refreshable;
 
 public class FirebaseAskedQuestionSummaryAdapter<T extends Refreshable> extends FirebaseRecyclerPagingAdapter<Boolean, QuestionSummaryHolder> {
@@ -33,10 +34,13 @@ public class FirebaseAskedQuestionSummaryAdapter<T extends Refreshable> extends 
     private T ref;
     private Context context;
 
-    public FirebaseAskedQuestionSummaryAdapter(Context context, T ref, @NonNull DatabasePagingOptions<Boolean> options) {
+    private ViewProfileActivity viewProfileActivity;
+
+    public FirebaseAskedQuestionSummaryAdapter(ViewProfileActivity viewProfileActivity, Context context, T ref, @NonNull DatabasePagingOptions<Boolean> options) {
         super(options);
         this.ref = ref;
-        this.context = context;
+        this.context = context.getApplicationContext();
+        this.viewProfileActivity = viewProfileActivity;
         // so that once element in recyclerview
         // does not affect other
         // some methods are also overridden at
@@ -46,6 +50,7 @@ public class FirebaseAskedQuestionSummaryAdapter<T extends Refreshable> extends 
 
     @Override
     protected void onBindViewHolder(@NonNull final QuestionSummaryHolder holder, int position, @NonNull Boolean aux) {
+        viewProfileActivity.getmEndOfContent().setVisibility(View.GONE);
         final String qid = getRef(position).getKey();
         // will be deactivated when the profile picture finishes loading
         activateShimmer(holder);
